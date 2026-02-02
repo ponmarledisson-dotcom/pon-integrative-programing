@@ -1,6 +1,8 @@
-﻿# Refecire – Online Shopping Landing Page
+﻿## ACTVITY 1 January 21,2026
 
-Description
+# Activity Name - Landing Page Refecire – Online Shopping Landing Page
+
+# Description
 
 Refecire is a online shopping landing page designed to showcase featured products and promote products and such. It is intended for small online businesses, or online shoppers for them to buy and sell items through online. The landing page shows clear calls to action, product highlights, and a visually appealing layout to attract customers and encourage online shopping.
 
@@ -25,17 +27,24 @@ I used ChatGPT to help improve the structure website landing page. I used ChatGP
 
 From this activity, I learned how to make a online shoopinh landing page using HTML and CSS.I learned how the styles affected the website and how every structure matter. The most challenging part was to discover which styles to use for specific designing.
 
-# Pages Added
+## ACTIVITY 2 January 26, 2026
 
-- login.html – Page where users can log in to their account
-- signup.html – Page where users can create a new account
+# Activity Name - Login and Signup Pages (Multi-Page Navigation)
 
-# New Features
+# Description:
 
-- Multi-page navigation (Landing page → Login page → Sign up page)
-- Same design and style used across all pages
+This activity focuses on adding login and signup pages to the existing landing page. It allows users to navigate from the landing page to log in or create a new account, while maintaining a consistent design and layout across all pages.
 
-# AI Assistance Disclosure (Update)
+# Features
 
-I used ChatGPT to help with the layout and styling of the login and sign up pages.  
-All code was reviewed and edited by me before being added to the project.
+- Multi-page navigation (Landing Page - Login Page - Sign Up Page)
+
+- Consistent design and styling across all pages
+
+- Simple and user-friendly login and signup forms
+
+# AI Assistance Disclosure (Required)
+
+Did you use AI tools? Yes
+
+I used ChatGPT to help with the layout and styling of the login and signup pages. It assisted in improving and update the websites structure, links, and design including the login and signup page. All code was reviewed, edited, and tested by me.
