@@ -48,3 +48,27 @@ This activity focuses on adding login and signup pages to the existing landing p
 Did you use AI tools? Yes
 
 I used ChatGPT to help with the layout and styling of the login and signup pages. It assisted in improving and update the websites structure, links, and design including the login and signup page. All code was reviewed, edited, and tested by me.
+
+## ACTIVITY 3 February 2, 2026
+
+# Activity Name - Profile and Settings pages
+
+# Description:
+
+This activity focuses on adding profile and settings pages to the existing website. It allows users to navigate between profile and settings pages while maintaining a consistent design and layout across all pages.
+
+# Features
+
+- Multi-page navigation (Landing Page - Profile Page - Settings Page)
+
+- Consistent design and styling across all pages
+
+- User profile display with sidebar navigation
+
+- Settings form interface (visual only)
+
+# AI Assistance Disclosure (Required)
+
+Did you use AI tools? Yes
+
+I used ChatGPT to help with the layout and styling of the profile and settings pages. It assisted in improving the website structure, navigation flow, and UI consistency. All code was reviewed, edited, and tested by me.

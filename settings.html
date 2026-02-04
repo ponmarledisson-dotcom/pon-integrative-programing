@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Settings</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+  <!-- NAVBAR (UNCHANGED) -->
+  <nav class="navbar">
+    <div class="logo">REFECIRE</div>
+    <ul class="nav-links">
+      <li><a href="index.html">Home</a></li>
+      <li><a href="login.html" class="sign-in">Logout</a></li>
+    </ul>
+  </nav>
+
+  <!-- SETTINGS PAGE -->
+  <section class="settings-layout">
+
+    <!-- SIDEBAR -->
+     
+  <aside class="settings-sidebar">
+  <h4>Navigation</h4>
+  <ul>
+    <li><a href="profile.html">Profile</a></li>
+    <li><a href="#" class="active">Settings</a></li>
+  </ul>
+
+  <hr style="margin:1.2rem 0; opacity:0.2;" />
+
+  <ul>
+    <li><a href="#">Account</a></li>
+    <li><a href="#">Security</a></li>
+    <li><a href="#">Notifications</a></li>
+  </ul>
+</aside>
+
+
+    <!-- MAIN CONTENT -->
+    <main class="settings-main">
+
+      <h2>Settings</h2>
+
+      <form class="settings-form">
+
+        <label for="email">
+          Change Email
+          <small>
+            This field will be synchronized with an external identity provider in later phases.
+          </small>
+        </label>
+        <input type="email" id="email" placeholder="new.email@example.com" />
+
+        <label for="address">
+          Change Address
+          <small>
+            Geographic data binding will be introduced in future builds.
+          </small>
+        </label>
+        <input type="text" id="address" placeholder="123 New Street, City, State" />
+
+        <label for="password">
+          Change Password
+          <small>
+            Argon2id hashing with memory-hard parameters will be activated in future builds.
+          </small>
+        </label>
+        <input type="password" id="password" placeholder="••••••••" />
+
+        <label for="theme">Theme</label>
+        <select id="theme">
+          <option>System Default</option>
+          <option>Dark</option>
+          <option>Light</option>
+        </select>
+
+        <div class="settings-actions">
+          <button type="button" class="btn-primary">Save Changes</button>
+        </div>
+
+      </form>
+
+      <div class="back-link">
+        <a href="profile.html"
