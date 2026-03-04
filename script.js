@@ -1,43 +1,44 @@
-const form = document.getElementById("newsletterForm");
-const emailInput = document.getElementById("email");
-const emailError = document.getElementById("emailError");
-const successMessage = document.getElementById("successMessage");
+// =============================
+// NEWSLETTER FORM
+// =============================
 
-if (form) {
-  form.addEventListener("submit", function (e) {
+const newsletterForm = document.getElementById("newsletterForm");
+
+if (newsletterForm) {
+  const emailInput = document.getElementById("email");
+  const emailError = document.getElementById("emailError");
+  const successMessage = document.getElementById("successMessage");
+
+  newsletterForm.addEventListener("submit", function (e) {
     e.preventDefault();
 
     const emailValue = emailInput.value.trim();
     const emailPattern = /^[^ ]+@[^ ]+\.[a-z]{2,}$/;
 
-    // Reset
     emailError.textContent = "";
     successMessage.textContent = "";
     emailInput.classList.remove("input-error", "input-success");
 
-    // Empty check
     if (emailValue === "") {
       emailError.textContent = "Email is required.";
       emailInput.classList.add("input-error");
       return;
     }
 
-    // Email format check
     if (!emailPattern.test(emailValue)) {
       emailError.textContent = "Please enter a valid email address.";
       emailInput.classList.add("input-error");
       return;
     }
 
-    // Success
     emailInput.classList.add("input-success");
     successMessage.textContent = "Successfully subscribed!";
-    form.reset();
+    newsletterForm.reset();
   });
 }
 
 // =============================
-// LOGIN FORM VALIDATION
+// LOGIN FORM
 // =============================
 
 const loginForm = document.getElementById("loginForm");
@@ -55,7 +56,6 @@ if (loginForm) {
     const passwordValue = loginPassword.value.trim();
     const emailPattern = /^[^ ]+@[^ ]+\.[a-z]{2,}$/;
 
-    // Reset
     loginEmailError.textContent = "";
     loginPasswordError.textContent = "";
     loginEmail.classList.remove("input-error", "input-success");
@@ -63,7 +63,6 @@ if (loginForm) {
 
     let isValid = true;
 
-    // Email validation
     if (emailValue === "") {
       loginEmailError.textContent = "Email is required.";
       loginEmail.classList.add("input-error");
@@ -76,7 +75,6 @@ if (loginForm) {
       loginEmail.classList.add("input-success");
     }
 
-    // Password validation
     if (passwordValue === "") {
       loginPasswordError.textContent = "Password is required.";
       loginPassword.classList.add("input-error");
@@ -90,20 +88,15 @@ if (loginForm) {
       loginPassword.classList.add("input-success");
     }
 
-    // If valid → Redirect
     if (isValid) {
-      // Save user data
-      localStorage.setItem("userName", nameValue);
-      localStorage.setItem("userEmail", emailValue);
-
-      // Redirect
       localStorage.setItem("userEmail", emailValue);
       window.location.href = "profile.html";
     }
   });
 }
+
 // =============================
-// SIGNUP FORM VALIDATION
+// SIGNUP FORM
 // =============================
 
 const signupForm = document.getElementById("signupForm");
@@ -134,7 +127,6 @@ if (signupForm) {
 
     let isValid = true;
 
-    // Reset errors
     signupNameError.textContent = "";
     signupEmailError.textContent = "";
     signupPasswordError.textContent = "";
@@ -145,7 +137,6 @@ if (signupForm) {
     signupPassword.classList.remove("input-error", "input-success");
     signupConfirmPassword.classList.remove("input-error", "input-success");
 
-    // Name validation
     if (nameValue === "") {
       signupNameError.textContent = "Full name is required.";
       signupName.classList.add("input-error");
@@ -158,7 +149,6 @@ if (signupForm) {
       signupName.classList.add("input-success");
     }
 
-    // Email validation
     if (emailValue === "") {
       signupEmailError.textContent = "Email is required.";
       signupEmail.classList.add("input-error");
@@ -171,7 +161,6 @@ if (signupForm) {
       signupEmail.classList.add("input-success");
     }
 
-    // Password validation
     if (passwordValue === "") {
       signupPasswordError.textContent = "Password is required.";
       signupPassword.classList.add("input-error");
@@ -185,7 +174,6 @@ if (signupForm) {
       signupPassword.classList.add("input-success");
     }
 
-    // Confirm password validation
     if (confirmPasswordValue === "") {
       signupConfirmPasswordError.textContent = "Please confirm your password.";
       signupConfirmPassword.classList.add("input-error");
@@ -198,43 +186,28 @@ if (signupForm) {
       signupConfirmPassword.classList.add("input-success");
     }
 
-    // If valid → Redirect
     if (isValid) {
-      // Save user data
       localStorage.setItem("userName", nameValue);
-      localStorage.setItem("userEmail", emailValue);
-
-      // Redirect
       localStorage.setItem("userEmail", emailValue);
       window.location.href = "profile.html";
     }
   });
 }
-// =============================
-// PROFILE PAGE DATA LOAD
-// =============================
-const logoutBtn = document.getElementById("logoutBtn");
-const profileAddress = document.getElementById("profileAddress");
 
-if (logoutBtn) {
-  logoutBtn.addEventListener("click", function () {
-    localStorage.clear();
-  });
-}
+// =============================
+// PROFILE PAGE
+// =============================
 
 const profileName = document.getElementById("profileName");
 const profileEmail = document.getElementById("profileEmail");
 const profileNameDetails = document.getElementById("profileNameDetails");
 const profileEmailDetails = document.getElementById("profileEmailDetails");
+const profileAddress = document.getElementById("profileAddress");
 
 if (profileName) {
-  const storedAddress = localStorage.getItem("userAddress");
-
-  if (storedAddress && profileAddress) {
-    profileAddress.textContent = storedAddress;
-  }
   const storedName = localStorage.getItem("userName");
   const storedEmail = localStorage.getItem("userEmail");
+  const storedAddress = localStorage.getItem("userAddress");
 
   if (storedName) {
     profileName.textContent = storedName;
@@ -245,9 +218,26 @@ if (profileName) {
     profileEmail.textContent = storedEmail;
     profileEmailDetails.textContent = storedEmail;
   }
+
+  if (storedAddress && profileAddress) {
+    profileAddress.textContent = storedAddress;
+  }
 }
+
 // =============================
-// SETTINGS PAGE SAVE
+// LOGOUT
+// =============================
+
+const logoutBtn = document.getElementById("logoutBtn");
+
+if (logoutBtn) {
+  logoutBtn.addEventListener("click", function () {
+    localStorage.clear();
+  });
+}
+
+// =============================
+// SETTINGS PAGE
 // =============================
 
 const saveSettings = document.getElementById("saveSettings");

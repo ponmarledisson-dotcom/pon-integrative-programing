@@ -1,54 +1,56 @@
 <!doctype html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Login | Refecire</title>
-    <link rel="stylesheet" href="style.css" />
-  </head>
 
-  <body>
-    <!-- NAVBAR -->
-    <nav class="navbar">
-      <div class="logo">REFECIRE</div>
-      <ul class="nav-links">
-        <li><a href="#">About</a></li>
-        <li><a href="#">Shop</a></li>
-        <li><a href="#">Contact</a></li>
-      </ul>
-    </nav>
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Login | Refecire</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
 
-    <!-- LOGIN SECTION -->
-    <section class="login">
-      <div class="login-card">
-        <a href="index.html" class="back-btn">← Back</a>
-        <h2>Welcome Back</h2>
-        <p>Login to continue shopping</p>
+<body>
+  <!-- NAVBAR -->
+  <nav class="navbar">
+    <div class="logo">REFECIRE</div>
+    <ul class="nav-links">
+      <li><a href="#">About</a></li>
+      <li><a href="#">Shop</a></li>
+      <li><a href="#">Contact</a></li>
+    </ul>
+  </nav>
 
-        <form class="login-form" id="loginForm" novalidate>
-          <div>
-            <input type="email" id="loginEmail" placeholder="Email address" />
-            <div class="error-message" id="loginEmailError"></div>
-          </div>
+  <!-- LOGIN SECTION -->
+  <section class="login">
+    <div class="login-card">
+      <a href="index.html" class="back-btn">← Back</a>
+      <h2>Welcome Back</h2>
+      <p>Login to continue shopping</p>
 
-          <div>
-            <input type="password" id="loginPassword" placeholder="Password" />
-            <div class="error-message" id="loginPasswordError"></div>
-          </div>
+      <form class="login-form" id="loginForm" novalidate>
+        <div>
+          <input type="email" id="loginEmail" placeholder="Email address" />
+          <div class="error-message" id="loginEmailError"></div>
+        </div>
 
-          <button type="submit" class="btn-primary">Login</button>
-        </form>
+        <div>
+          <input type="password" id="loginPassword" placeholder="Password" />
+          <div class="error-message" id="loginPasswordError"></div>
+        </div>
 
-        <p class="login-footer">
-          Don’t have an account?
-          <a href="signup.html">Sign up</a>
-        </p>
-      </div>
-    </section>
+        <button type="submit" class="btn-primary">Login</button>
+      </form>
 
-    <footer>
-      <p>&copy; 2026 Refecire</p>
-    </footer>
-    <script src="script.js"></script>
-  </body>
+      <p class="login-footer">
+        Don’t have an account?
+        <a href="signup.html">Sign up</a>
+      </p>
+    </div>
+  </section>
+
+  <footer>
+    <p>&copy; 2026 Refecire</p>
+  </footer>
+  <script src="script.js"></script>
+</body>
+
 </html>
