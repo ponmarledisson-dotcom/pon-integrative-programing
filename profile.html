@@ -12,7 +12,7 @@
       <div class="logo">REFECIRE</div>
       <ul class="nav-links">
         <li><a href="index.html">Home</a></li>
-        <li><a href="login.html" class="sign-in">Logout</a></li>
+        <a href="login.html" class="sign-in" id="logoutBtn">Logout</a>
       </ul>
     </nav>
 
@@ -21,9 +21,9 @@
       <!-- LEFT CARD -->
       <div class="profile-sidebar">
         <img src="https://i.pravatar.cc/150?img=12" alt="Profile Avatar" />
-        <h3>Emma Lopez</h3>
-        <p>emma.lopez@email.com</p>
-        <p>88 Market Street, San Diego, CA</p>
+        <h3 id="profileName">User Name</h3>
+        <p id="profileEmail">user@email.com</p>
+        <p id="profileAddress">Address here</p>
 
         <a href="settings.html">
           <button class="btn-primary">Settings</button>
@@ -46,11 +46,11 @@
           <div class="profile-grid">
             <div>
               <span>Full Name</span>
-              First Name Last
+              <span id="profileNameDetails">User Name</span>
             </div>
             <div>
               <span>Gmail</span>
-              @gmail.com
+              <span id="profileEmailDetails">user@email.com</span>
             </div>
             <div>
               <span>Address</span>
@@ -68,5 +68,6 @@
     <footer>
       <p>© 2026 MyApp. All rights reserved.</p>
     </footer>
+    <script src="script.js"></script>
   </body>
 </html>

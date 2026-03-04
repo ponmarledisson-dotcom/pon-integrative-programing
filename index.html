@@ -113,15 +113,23 @@
     <section class="newsletter">
       <h2>Stay Updated</h2>
       <p>Subscribe for exclusive deals and new product updates.</p>
-      <form class="newsletter-form">
-        <input type="email" placeholder="Enter your email" required />
+
+      <form class="newsletter-form" id="newsletterForm" novalidate>
+        <div>
+          <input type="email" id="email" placeholder="Enter your email" />
+          <div class="error-message" id="emailError"></div>
+        </div>
+
         <button type="submit">Subscribe</button>
       </form>
+
+      <div class="success-message" id="successMessage"></div>
     </section>
 
     <!-- FOOTER -->
     <footer>
       <p>&copy; 2026 Refecire | Designed by Marl Edisson N. Pon</p>
     </footer>
+    <script src="script.js"></script>
   </body>
 </html>

@@ -26,11 +26,31 @@
         <h2>Create Account</h2>
         <p>Join Refecire and start shopping</p>
 
-        <form class="login-form" action="profile.html">
-          <input type="text" placeholder="Full Name" required />
-          <input type="email" placeholder="Email Address" required />
-          <input type="password" placeholder="Password" required />
-          <input type="password" placeholder="Confirm Password" required />
+        <form class="login-form" id="signupForm" novalidate>
+          <div>
+            <input type="text" id="signupName" placeholder="Full Name" />
+            <div class="error-message" id="signupNameError"></div>
+          </div>
+
+          <div>
+            <input type="email" id="signupEmail" placeholder="Email Address" />
+            <div class="error-message" id="signupEmailError"></div>
+          </div>
+
+          <div>
+            <input type="password" id="signupPassword" placeholder="Password" />
+            <div class="error-message" id="signupPasswordError"></div>
+          </div>
+
+          <div>
+            <input
+              type="password"
+              id="signupConfirmPassword"
+              placeholder="Confirm Password"
+            />
+            <div class="error-message" id="signupConfirmPasswordError"></div>
+          </div>
+
           <button type="submit" class="btn-primary">Sign Up</button>
         </form>
 
@@ -44,5 +64,6 @@
     <footer>
       <p>&copy; 2026 Refecire</p>
     </footer>
+    <script src="script.js"></script>
   </body>
 </html>

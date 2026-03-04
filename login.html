@@ -25,9 +25,17 @@
         <h2>Welcome Back</h2>
         <p>Login to continue shopping</p>
 
-        <form class="login-form" action="profile.html">
-          <input type="email" placeholder="Email address" required />
-          <input type="password" placeholder="Password" required />
+        <form class="login-form" id="loginForm" novalidate>
+          <div>
+            <input type="email" id="loginEmail" placeholder="Email address" />
+            <div class="error-message" id="loginEmailError"></div>
+          </div>
+
+          <div>
+            <input type="password" id="loginPassword" placeholder="Password" />
+            <div class="error-message" id="loginPasswordError"></div>
+          </div>
+
           <button type="submit" class="btn-primary">Login</button>
         </form>
 
@@ -41,5 +49,6 @@
     <footer>
       <p>&copy; 2026 Refecire</p>
     </footer>
+    <script src="script.js"></script>
   </body>
 </html>

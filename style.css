@@ -359,6 +359,7 @@ footer {
 .back-btn:hover {
   text-decoration: underline;
 }
+
 /* =======================
    PROFILE PAGE
 ======================= */
@@ -542,4 +543,30 @@ footer {
   .settings-layout {
     grid-template-columns: 1fr;
   }
+}
+
+/* =======================
+   FORM VALIDATION STYLES
+======================= */
+
+.input-error {
+  border: 2px solid #ff4d4d !important;
+}
+
+.input-success {
+  border: 2px solid #00ffea !important;
+}
+
+.error-message {
+  color: #ff4d4d;
+  font-size: 0.8rem;
+  margin-top: 5px;
+  text-align: left;
+}
+
+.success-message {
+  color: #00ffea;
+  font-size: 0.95rem;
+  margin-top: 15px;
+  font-weight: 500;
 }
