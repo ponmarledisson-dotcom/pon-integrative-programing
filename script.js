@@ -44,31 +44,33 @@ if (newsletterForm) {
 const loginForm = document.getElementById("loginForm");
 
 if (loginForm) {
-  const loginEmail = document.getElementById("loginEmail");
-  const loginPassword = document.getElementById("loginPassword");
-  const loginEmailError = document.getElementById("loginEmailError");
-  const loginPasswordError = document.getElementById("loginPasswordError");
-
   loginForm.addEventListener("submit", function (e) {
     e.preventDefault();
 
-    const emailValue = loginEmail.value.trim();
-    const passwordValue = loginPassword.value.trim();
-    const emailPattern = /^[^ ]+@[^ ]+\.[a-z]{2,}$/;
+    var loginEmail = document.getElementById("loginEmail");
+    var loginPassword = document.getElementById("loginPassword");
+    var loginEmailError = document.getElementById("loginEmailError");
+    var loginPasswordError = document.getElementById("loginPasswordError");
 
-    loginEmailError.textContent = "";
-    loginPasswordError.textContent = "";
+    if (!loginEmail || !loginPassword) return;
+
+    var emailValue = loginEmail.value.trim();
+    var passwordValue = loginPassword.value.trim();
+    var emailPattern = /^[^ ]+@[^ ]+\.[a-z]{2,}$/;
+    var isValid = true;
+
+    if (loginEmailError) loginEmailError.textContent = "";
+    if (loginPasswordError) loginPasswordError.textContent = "";
     loginEmail.classList.remove("input-error", "input-success");
     loginPassword.classList.remove("input-error", "input-success");
 
-    let isValid = true;
-
     if (emailValue === "") {
-      loginEmailError.textContent = "Email is required.";
+      if (loginEmailError) loginEmailError.textContent = "Email is required.";
       loginEmail.classList.add("input-error");
       isValid = false;
     } else if (!emailPattern.test(emailValue)) {
-      loginEmailError.textContent = "Please enter a valid email address.";
+      if (loginEmailError)
+        loginEmailError.textContent = "Please enter a valid email address.";
       loginEmail.classList.add("input-error");
       isValid = false;
     } else {
@@ -76,12 +78,14 @@ if (loginForm) {
     }
 
     if (passwordValue === "") {
-      loginPasswordError.textContent = "Password is required.";
+      if (loginPasswordError)
+        loginPasswordError.textContent = "Password is required.";
       loginPassword.classList.add("input-error");
       isValid = false;
     } else if (passwordValue.length < 6) {
-      loginPasswordError.textContent =
-        "Password must be at least 6 characters.";
+      if (loginPasswordError)
+        loginPasswordError.textContent =
+          "Password must be at least 6 characters.";
       loginPassword.classList.add("input-error");
       isValid = false;
     } else {
@@ -90,7 +94,14 @@ if (loginForm) {
 
     if (isValid) {
       localStorage.setItem("userEmail", emailValue);
-      window.location.href = "profile.html";
+
+      if (emailValue === "admin@refecire.com") {
+        localStorage.setItem("userRole", "admin");
+        window.location.href = "admin.html";
+      } else {
+        localStorage.setItem("userRole", "user");
+        window.location.href = "profile.html";
+      }
     }
   });
 }
@@ -189,6 +200,7 @@ if (signupForm) {
     if (isValid) {
       localStorage.setItem("userName", nameValue);
       localStorage.setItem("userEmail", emailValue);
+      localStorage.setItem("userRole", "user");
       window.location.href = "profile.html";
     }
   });
@@ -247,14 +259,392 @@ if (saveSettings) {
     const newEmail = document.getElementById("email").value;
     const newAddress = document.getElementById("address").value;
 
-    if (newEmail) {
-      localStorage.setItem("userEmail", newEmail);
-    }
-
-    if (newAddress) {
-      localStorage.setItem("userAddress", newAddress);
-    }
+    if (newEmail) localStorage.setItem("userEmail", newEmail);
+    if (newAddress) localStorage.setItem("userAddress", newAddress);
 
     alert("Settings updated successfully!");
   });
 }
+
+// =============================
+// ADMIN: SHARED HELPERS
+// =============================
+
+function getUsers() {
+  return JSON.parse(localStorage.getItem("refecire_users") || "[]");
+}
+
+function saveUsers(users) {
+  localStorage.setItem("refecire_users", JSON.stringify(users));
+}
+
+function getNextId() {
+  const users = getUsers();
+  return users.length > 0
+    ? Math.max.apply(
+        null,
+        users.map(function (u) {
+          return u.id;
+        }),
+      ) + 1
+    : 1;
+}
+
+function adminLogout() {
+  localStorage.removeItem("userEmail");
+  localStorage.removeItem("userRole");
+  window.location.href = "login.html";
+}
+
+function setupAdminLogout() {
+  const btn1 = document.getElementById("logoutBtn");
+  const btn2 = document.getElementById("logoutBtn2");
+  if (btn1) btn1.addEventListener("click", adminLogout);
+  if (btn2) btn2.addEventListener("click", adminLogout);
+}
+
+function requireAdminAccess() {
+  const email = localStorage.getItem("userEmail");
+  const role = localStorage.getItem("userRole");
+  if (!email) {
+    window.location.href = "login.html";
+    return false;
+  }
+  if (role !== "admin") {
+    window.location.href = "profile.html";
+    return false;
+  }
+  return true;
+}
+
+// =============================
+// ADMIN: DASHBOARD (admin.html)
+// =============================
+
+(function () {
+  const adminWelcome = document.getElementById("adminName");
+  if (!adminWelcome) return;
+
+  if (!requireAdminAccess()) return;
+
+  const storedAdminName = localStorage.getItem("userName");
+  if (storedAdminName) adminWelcome.textContent = storedAdminName;
+
+  const allUsers = getUsers();
+  document.getElementById("statTotal").textContent = allUsers.length;
+  document.getElementById("statAdmins").textContent = allUsers.filter(
+    function (u) {
+      return u.role === "admin";
+    },
+  ).length;
+  document.getElementById("statRegular").textContent = allUsers.filter(
+    function (u) {
+      return u.role === "user";
+    },
+  ).length;
+
+  const recentBody = document.getElementById("recentUsersBody");
+  const recentList = allUsers.slice().reverse().slice(0, 5);
+
+  if (recentList.length === 0) {
+    recentBody.innerHTML =
+      '<tr><td colspan="4" style="text-align:center;opacity:0.5;padding:1.5rem;">' +
+      'No users yet. <a href="add-user.html" style="color:#00ffea;">Add one →</a></td></tr>';
+  } else {
+    recentBody.innerHTML = recentList
+      .map(function (u) {
+        return (
+          "<tr>" +
+          '<td style="opacity:0.5;">#' +
+          u.id +
+          "</td>" +
+          "<td>" +
+          u.name +
+          "</td>" +
+          "<td>" +
+          u.email +
+          "</td>" +
+          '<td><span class="role-badge ' +
+          (u.role === "admin" ? "role-admin" : "role-user") +
+          '">' +
+          u.role +
+          "</span></td>" +
+          "</tr>"
+        );
+      })
+      .join("");
+  }
+
+  setupAdminLogout();
+})();
+
+// =============================
+// ADMIN: MANAGE USERS (manage-users.html)
+// =============================
+
+(function () {
+  const usersTableBody = document.getElementById("usersTableBody");
+  if (!usersTableBody) return;
+
+  if (!requireAdminAccess()) return;
+
+  var pendingDeleteId = null;
+
+  function renderUsersTable(users) {
+    var countEl = document.getElementById("resultCount");
+    if (countEl)
+      countEl.textContent =
+        users.length + " user" + (users.length !== 1 ? "s" : "") + " found";
+
+    if (users.length === 0) {
+      usersTableBody.innerHTML =
+        '<tr><td colspan="5" style="text-align:center;opacity:0.5;padding:2rem;">' +
+        'No users found. <a href="add-user.html" style="color:#00ffea;">Add one →</a></td></tr>';
+      return;
+    }
+
+    usersTableBody.innerHTML = users
+      .map(function (u) {
+        return (
+          '<tr id="row-' +
+          u.id +
+          '">' +
+          '<td style="opacity:0.5;">#' +
+          u.id +
+          "</td>" +
+          "<td>" +
+          u.name +
+          "</td>" +
+          "<td>" +
+          u.email +
+          "</td>" +
+          '<td><span class="role-badge ' +
+          (u.role === "admin" ? "role-admin" : "role-user") +
+          '">' +
+          u.role +
+          "</span></td>" +
+          '<td><button class="btn-delete" data-id="' +
+          u.id +
+          '" data-name="' +
+          u.name.replace(/"/g, "&quot;") +
+          '">Delete</button></td>' +
+          "</tr>"
+        );
+      })
+      .join("");
+
+    usersTableBody.querySelectorAll(".btn-delete").forEach(function (btn) {
+      btn.addEventListener("click", function () {
+        openDeleteModal(Number(this.dataset.id), this.dataset.name);
+      });
+    });
+  }
+
+  function filterUsers() {
+    var search = document.getElementById("searchInput").value.toLowerCase();
+    var role = document.getElementById("roleFilter").value;
+    var list = getUsers().filter(function (u) {
+      var matchSearch =
+        u.name.toLowerCase().includes(search) ||
+        u.email.toLowerCase().includes(search);
+      var matchRole = !role || u.role === role;
+      return matchSearch && matchRole;
+    });
+    renderUsersTable(list);
+  }
+
+  function openDeleteModal(id, name) {
+    pendingDeleteId = id;
+    document.getElementById("deleteTargetName").textContent = name;
+    document.getElementById("deleteModal").classList.add("show");
+  }
+
+  function closeDeleteModal() {
+    pendingDeleteId = null;
+    document.getElementById("deleteModal").classList.remove("show");
+  }
+
+  function confirmDeleteUser() {
+    if (!pendingDeleteId) return;
+    saveUsers(
+      getUsers().filter(function (u) {
+        return u.id !== pendingDeleteId;
+      }),
+    );
+    closeDeleteModal();
+    filterUsers();
+    var alertEl = document.getElementById("alertMsg");
+    if (alertEl) {
+      alertEl.style.display = "block";
+      alertEl.textContent = "✔ User deleted successfully.";
+      setTimeout(function () {
+        alertEl.style.display = "none";
+      }, 3000);
+    }
+  }
+
+  document.getElementById("searchInput").addEventListener("input", filterUsers);
+  document.getElementById("roleFilter").addEventListener("change", filterUsers);
+  document
+    .getElementById("clearFiltersBtn")
+    .addEventListener("click", function () {
+      document.getElementById("searchInput").value = "";
+      document.getElementById("roleFilter").value = "";
+      filterUsers();
+    });
+  document
+    .getElementById("modalCancelBtn")
+    .addEventListener("click", closeDeleteModal);
+  document
+    .getElementById("modalConfirmBtn")
+    .addEventListener("click", confirmDeleteUser);
+
+  setupAdminLogout();
+  renderUsersTable(getUsers());
+})();
+
+// =============================
+// ADMIN: ADD USER (add-user.html)
+// =============================
+
+(function () {
+  const addUserBtn = document.getElementById("addUserBtn");
+  if (!addUserBtn) return;
+
+  if (!requireAdminAccess()) return;
+
+  var today = new Date().toISOString().split("T")[0];
+  document.getElementById("prevDate").textContent = today;
+  document.getElementById("prevId").textContent = "#" + getNextId();
+
+  function updateAddPreview() {
+    var name = document.getElementById("addName").value.trim();
+    var email = document.getElementById("addEmail").value.trim();
+    var role = document.getElementById("addRole").value;
+
+    document.getElementById("prevName").textContent = name || "New User";
+    document.getElementById("prevEmail").textContent =
+      email || "email@example.com";
+    document.getElementById("prevRole").textContent =
+      role.charAt(0).toUpperCase() + role.slice(1);
+
+    var badge = document.getElementById("prevRoleBadge");
+    badge.textContent = role;
+    badge.className =
+      "role-badge " + (role === "admin" ? "role-admin" : "role-user");
+  }
+
+  function addNewUser() {
+    var name = document.getElementById("addName").value.trim();
+    var email = document.getElementById("addEmail").value.trim();
+    var role = document.getElementById("addRole").value;
+    var password = document.getElementById("addPassword").value;
+    var confirm = document.getElementById("addConfirm").value;
+    var emailPat = /^[^ ]+@[^ ]+\.[a-z]{2,}$/i;
+
+    ["errName", "errEmail", "errPassword", "errConfirm"].forEach(function (id) {
+      document.getElementById(id).textContent = "";
+    });
+    ["addName", "addEmail", "addPassword", "addConfirm"].forEach(function (id) {
+      document
+        .getElementById(id)
+        .classList.remove("input-error", "input-success");
+    });
+
+    var valid = true;
+
+    if (!name || name.length < 2) {
+      document.getElementById("errName").textContent =
+        "Full name must be at least 2 characters.";
+      document.getElementById("addName").classList.add("input-error");
+      valid = false;
+    } else {
+      document.getElementById("addName").classList.add("input-success");
+    }
+
+    if (!email || !emailPat.test(email)) {
+      document.getElementById("errEmail").textContent =
+        "Please enter a valid email address.";
+      document.getElementById("addEmail").classList.add("input-error");
+      valid = false;
+    } else if (
+      getUsers().find(function (u) {
+        return u.email.toLowerCase() === email.toLowerCase();
+      })
+    ) {
+      document.getElementById("errEmail").textContent =
+        "A user with this email already exists.";
+      document.getElementById("addEmail").classList.add("input-error");
+      valid = false;
+    } else {
+      document.getElementById("addEmail").classList.add("input-success");
+    }
+
+    if (!password || password.length < 6) {
+      document.getElementById("errPassword").textContent =
+        "Password must be at least 6 characters.";
+      document.getElementById("addPassword").classList.add("input-error");
+      valid = false;
+    } else {
+      document.getElementById("addPassword").classList.add("input-success");
+    }
+
+    if (!confirm || confirm !== password) {
+      document.getElementById("errConfirm").textContent =
+        "Passwords do not match.";
+      document.getElementById("addConfirm").classList.add("input-error");
+      valid = false;
+    } else if (password && password.length >= 6) {
+      document.getElementById("addConfirm").classList.add("input-success");
+    }
+
+    if (!valid) return;
+
+    var users = getUsers();
+    var newUser = {
+      id: getNextId(),
+      name: name,
+      email: email,
+      role: role,
+      joined: today,
+    };
+    users.push(newUser);
+    saveUsers(users);
+
+    document.getElementById("modalUserName").textContent = name;
+    document.getElementById("successModal").classList.add("show");
+  }
+
+  function resetAddForm() {
+    ["addName", "addEmail", "addPassword", "addConfirm"].forEach(function (id) {
+      document.getElementById(id).value = "";
+      document
+        .getElementById(id)
+        .classList.remove("input-error", "input-success");
+    });
+    document.getElementById("addRole").selectedIndex = 0;
+    ["errName", "errEmail", "errPassword", "errConfirm"].forEach(function (id) {
+      document.getElementById(id).textContent = "";
+    });
+    document.getElementById("successModal").classList.remove("show");
+    updateAddPreview();
+    document.getElementById("prevId").textContent = "#" + getNextId();
+  }
+
+  addUserBtn.addEventListener("click", addNewUser);
+  document
+    .getElementById("addName")
+    .addEventListener("input", updateAddPreview);
+  document
+    .getElementById("addEmail")
+    .addEventListener("input", updateAddPreview);
+  document
+    .getElementById("addRole")
+    .addEventListener("change", updateAddPreview);
+  document
+    .getElementById("addAnotherBtn")
+    .addEventListener("click", resetAddForm);
+
+  setupAdminLogout();
+  updateAddPreview();
+})();

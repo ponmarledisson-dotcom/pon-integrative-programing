@@ -1,0 +1,128 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Manage Users | Refecire Admin</title>
+    <link rel="stylesheet" href="style.css" />
+  </head>
+
+  <body>
+    <!-- NAVBAR -->
+    <nav class="navbar">
+      <div class="logo">REFECIRE</div>
+      <ul class="nav-links">
+        <li><a href="index.html">Home</a></li>
+        <li><a href="admin.html">Dashboard</a></li>
+        <li><a href="manage-users.html" class="nav-active">Manage Users</a></li>
+        <li><a href="profile.html">Profile</a></li>
+        <li><a href="login.html" class="sign-in" id="logoutBtn">Logout</a></li>
+      </ul>
+    </nav>
+
+    <!-- DELETE CONFIRM MODAL -->
+    <div class="modal-overlay" id="deleteModal">
+      <div class="modal-box">
+        <h3>⚠️ Delete User</h3>
+        <p>
+          Are you sure you want to delete
+          <strong id="deleteTargetName"></strong>?<br />This action cannot be
+          undone.
+        </p>
+        <div class="modal-actions">
+          <button class="btn-cancel" id="modalCancelBtn">Cancel</button>
+          <button class="btn-confirm-delete" id="modalConfirmBtn">
+            Delete
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- ADMIN LAYOUT -->
+    <section class="admin-layout">
+      <!-- SIDEBAR -->
+      <aside class="admin-sidebar">
+        <h4>Admin Panel</h4>
+        <ul>
+          <li><a href="admin.html">📊 Dashboard</a></li>
+          <li>
+            <a href="manage-users.html" class="active">👥 Manage Users</a>
+          </li>
+          <li><a href="add-user.html">➕ Add User</a></li>
+        </ul>
+        <hr class="sidebar-divider" />
+        <h4>Account</h4>
+        <ul>
+          <li><a href="profile.html">👤 Profile</a></li>
+          <li><a href="settings.html">⚙️ Settings</a></li>
+          <li><a href="login.html" id="logoutBtn2">🚪 Logout</a></li>
+        </ul>
+      </aside>
+
+      <!-- MAIN CONTENT -->
+      <div class="manage-main">
+        <div class="manage-header">
+          <div>
+            <h2>Manage Users</h2>
+            <p>View, search, and delete user accounts</p>
+          </div>
+          <a href="add-user.html"
+            ><button class="btn-primary">➕ Add New User</button></a
+          >
+        </div>
+
+        <!-- SEARCH & FILTER -->
+        <div class="table-card search-card">
+          <div class="search-bar">
+            <input
+              type="text"
+              id="searchInput"
+              placeholder="🔍  Search by name or email…"
+            />
+            <select id="roleFilter">
+              <option value="">All Roles</option>
+              <option value="admin">Admin</option>
+              <option value="user">User</option>
+            </select>
+            <button class="btn-secondary btn-sm" id="clearFiltersBtn">
+              Clear
+            </button>
+          </div>
+        </div>
+
+        <!-- USER TABLE -->
+        <div class="table-card">
+          <div class="table-top">
+            <h3>User List</h3>
+            <span class="result-count" id="resultCount"></span>
+          </div>
+
+          <p class="success-message" id="alertMsg" style="display: none"></p>
+
+          <table class="admin-table">
+            <thead>
+              <tr>
+                <th>ID</th>
+                <th>Name</th>
+                <th>Email</th>
+                <th>Role</th>
+                <th>Action</th>
+              </tr>
+            </thead>
+            <tbody id="usersTableBody"></tbody>
+          </table>
+        </div>
+
+        <div>
+          <a href="admin.html" class="back-btn">← Back to Dashboard</a>
+        </div>
+      </div>
+    </section>
+
+    <footer>
+      <p>&copy; 2026 Refecire | Admin Panel</p>
+    </footer>
+
+    <script src="script.js"></script>
+  </body>
+</html>

@@ -1,0 +1,109 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Admin Dashboard | Refecire</title>
+    <link rel="stylesheet" href="style.css" />
+  </head>
+
+  <body>
+    <!-- NAVBAR -->
+    <nav class="navbar">
+      <div class="logo">REFECIRE</div>
+      <ul class="nav-links">
+        <li><a href="index.html">Home</a></li>
+        <li><a href="admin.html" class="nav-active">Dashboard</a></li>
+        <li><a href="manage-users.html">Manage Users</a></li>
+        <li><a href="profile.html">Profile</a></li>
+        <li><a href="login.html" class="sign-in" id="logoutBtn">Logout</a></li>
+      </ul>
+    </nav>
+
+    <!-- ADMIN LAYOUT -->
+    <section class="admin-layout">
+      <!-- SIDEBAR -->
+      <aside class="admin-sidebar">
+        <h4>Admin Panel</h4>
+        <ul>
+          <li><a href="admin.html" class="active">📊 Dashboard</a></li>
+          <li><a href="manage-users.html">👥 Manage Users</a></li>
+          <li><a href="add-user.html">➕ Add User</a></li>
+        </ul>
+        <hr class="sidebar-divider" />
+        <h4>Account</h4>
+        <ul>
+          <li><a href="profile.html">👤 Profile</a></li>
+          <li><a href="settings.html">⚙️ Settings</a></li>
+          <li><a href="login.html" id="logoutBtn2">🚪 Logout</a></li>
+        </ul>
+      </aside>
+
+      <!-- MAIN CONTENT -->
+      <div class="admin-main">
+        <div class="admin-welcome">
+          <h2>Admin Dashboard</h2>
+          <p>
+            Welcome, <strong id="adminName">Admin</strong>. Use the menu to
+            manage system data.
+          </p>
+        </div>
+
+        <div class="stats-grid">
+          <div class="stat-card">
+            <span class="stat-number" id="statTotal">0</span>
+            <div class="stat-label">Total Users</div>
+          </div>
+          <div class="stat-card">
+            <span class="stat-number" id="statAdmins">0</span>
+            <div class="stat-label">Admins</div>
+          </div>
+          <div class="stat-card">
+            <span class="stat-number" id="statRegular">0</span>
+            <div class="stat-label">Regular Users</div>
+          </div>
+          <div class="stat-card">
+            <span class="stat-number" id="statNew">1</span>
+            <div class="stat-label">New This Month</div>
+          </div>
+        </div>
+
+        <div class="quick-actions">
+          <h3>Quick Actions</h3>
+          <div class="action-buttons">
+            <a href="manage-users.html"
+              ><button class="btn-primary">👥 Manage Users</button></a
+            >
+            <a href="add-user.html"
+              ><button class="btn-secondary">➕ Add New User</button></a
+            >
+            <a href="profile.html"
+              ><button class="btn-secondary">👤 My Profile</button></a
+            >
+          </div>
+        </div>
+
+        <div class="recent-users">
+          <h3>Recent Users</h3>
+          <table class="admin-table">
+            <thead>
+              <tr>
+                <th>ID</th>
+                <th>Name</th>
+                <th>Email</th>
+                <th>Role</th>
+              </tr>
+            </thead>
+            <tbody id="recentUsersBody"></tbody>
+          </table>
+        </div>
+      </div>
+    </section>
+
+    <footer>
+      <p>&copy; 2026 Refecire | Admin Panel</p>
+    </footer>
+
+    <script src="script.js"></script>
+  </body>
+</html>

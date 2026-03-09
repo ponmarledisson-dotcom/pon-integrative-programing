@@ -118,3 +118,30 @@ I used ChatGPT to help me add JavaScript features such as login, signup validati
 # Learning Reflection
 
 From this activity, I learned how to make a website more interactive using JavaScript. I learned how to store user information in the browser and show it on different pages. The most challenging part was making sure the information updates correctly and works across all pages.
+
+## ACTIVITY 5 March 9, 2026
+
+# Activity Name - Create Admin Pages
+
+# Description
+
+This activity focuses on adding a simple admin interface to the existing Refecire website. It allows an administrator to log in and be redirected to an Admin Dashboard, where they can view system stats, manage users, and add new user accounts. All existing pages remain fully functional.
+
+# Features
+
+- Admin Dashboard (admin.html) with stats overview, quick actions, and recent users table
+- Manage Users page (manage-users.html) with searchable and filterable user table and delete confirmation modal
+- Add User form (add-user.html) with full validation, live preview card, and success modal
+- Role-based login redirect: logging in with admin@refecire.com goes to admin.html, all other users go to profile.html
+- Admin pages are protected and redirect non-logged-in users to login.html and non-admins to profile.html
+- User data stored and managed via localStorage
+- HTML, CSS, and JavaScript are fully separated across all files.
+
+# AI Assistance Disclosure (Required)
+
+Did you use AI tools? Yes
+I used AI tools to help with the layout and structure of the admin pages and to fix the JavaScript bug that was preventing the login redirect from working. All code was reviewed, edited, and tested by me.
+
+# Learning Reflection
+
+From this activity, I learned how to build an admin-side interface for a web application. I understood how role-based access control works using JavaScript and localStorage. I also learned how to separate HTML, CSS, and JavaScript into different files to keep the code clean and organized. The most challenging part was debugging the login redirect issue, which turned out to be caused by illegal return statements crashing the entire script silently.

@@ -44,6 +44,10 @@ body {
   color: #00ffea;
 }
 
+.nav-links a.nav-active {
+  color: #00ffea;
+}
+
 .sign-in {
   padding: 0.4rem 1rem;
   border: 1px solid #00ffea;
@@ -117,6 +121,11 @@ body {
   color: #0d1b3d;
 }
 
+.btn-sm {
+  padding: 0.5rem 1.1rem;
+  font-size: 0.85rem;
+}
+
 /* HERO BACKGROUND EFFECT */
 .hero::before {
   content: "";
@@ -130,7 +139,7 @@ body {
   pointer-events: none;
 }
 
-/* PRODUCTS SECTION (for future HTML) */
+/* PRODUCTS SECTION */
 .products {
   padding: 4rem 5%;
 }
@@ -206,6 +215,7 @@ footer {
   margin-top: 2rem;
   opacity: 0.8;
 }
+
 /* FEATURES */
 .features {
   padding: 4rem 5%;
@@ -537,14 +547,6 @@ footer {
   text-decoration: underline;
 }
 
-/* RESPONSIVE */
-@media (max-width: 850px) {
-  .profile-page,
-  .settings-layout {
-    grid-template-columns: 1fr;
-  }
-}
-
 /* =======================
    FORM VALIDATION STYLES
 ======================= */
@@ -569,4 +571,576 @@ footer {
   font-size: 0.95rem;
   margin-top: 15px;
   font-weight: 500;
+}
+
+/* =======================
+   ADMIN SHARED LAYOUT
+======================= */
+
+.admin-layout {
+  padding: 2.5rem 5%;
+  display: grid;
+  grid-template-columns: 240px 1fr;
+  gap: 2rem;
+}
+
+.admin-sidebar {
+  background: rgba(255, 255, 255, 0.08);
+  backdrop-filter: blur(12px);
+  border-radius: 15px;
+  padding: 1.5rem;
+  box-shadow: 0 15px 30px rgba(0, 0, 0, 0.25);
+  align-self: start;
+  position: sticky;
+  top: 1rem;
+}
+
+.admin-sidebar h4 {
+  margin-bottom: 1rem;
+  color: #00ffea;
+  font-size: 0.8rem;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+
+.admin-sidebar ul {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+  font-size: 0.9rem;
+}
+
+.admin-sidebar a {
+  color: #fff;
+  text-decoration: none;
+  opacity: 0.8;
+  transition: 0.2s;
+}
+
+.admin-sidebar a:hover,
+.admin-sidebar a.active {
+  color: #00ffea;
+  opacity: 1;
+}
+
+.sidebar-divider {
+  margin: 1.2rem 0;
+  opacity: 0.2;
+  border: none;
+  border-top: 1px solid #fff;
+}
+
+/* =======================
+   ADMIN DASHBOARD
+======================= */
+
+.admin-main {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+.admin-welcome {
+  background: rgba(255, 255, 255, 0.08);
+  backdrop-filter: blur(12px);
+  border-radius: 15px;
+  padding: 2rem;
+  box-shadow: 0 15px 30px rgba(0, 0, 0, 0.25);
+}
+
+.admin-welcome h2 {
+  font-size: 1.6rem;
+  margin-bottom: 0.4rem;
+}
+
+.admin-welcome p {
+  opacity: 0.8;
+  font-size: 0.95rem;
+}
+
+.stats-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+  gap: 1.2rem;
+}
+
+.stat-card {
+  background: rgba(255, 255, 255, 0.08);
+  backdrop-filter: blur(12px);
+  border-radius: 12px;
+  padding: 1.5rem;
+  text-align: center;
+  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+  transition: 0.3s;
+}
+
+.stat-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 15px 30px rgba(0, 0, 0, 0.3);
+}
+
+.stat-number {
+  font-size: 2.2rem;
+  font-weight: bold;
+  color: #00ffea;
+  display: block;
+}
+
+.stat-label {
+  font-size: 0.82rem;
+  opacity: 0.7;
+  margin-top: 0.3rem;
+}
+
+.quick-actions,
+.recent-users {
+  background: rgba(255, 255, 255, 0.08);
+  backdrop-filter: blur(12px);
+  border-radius: 15px;
+  padding: 1.75rem 2rem;
+  box-shadow: 0 15px 30px rgba(0, 0, 0, 0.25);
+}
+
+.quick-actions h3,
+.recent-users h3 {
+  color: #00ffea;
+  margin-bottom: 1.2rem;
+  font-size: 1rem;
+}
+
+.action-buttons {
+  display: flex;
+  gap: 1rem;
+  flex-wrap: wrap;
+}
+
+.action-buttons a {
+  text-decoration: none;
+}
+
+/* =======================
+   ADMIN TABLE (shared)
+======================= */
+
+.admin-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.9rem;
+}
+
+.admin-table th {
+  text-align: left;
+  padding: 0.65rem 1rem;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.15);
+  opacity: 0.55;
+  font-size: 0.75rem;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.admin-table td {
+  padding: 0.85rem 1rem;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.07);
+  vertical-align: middle;
+}
+
+.admin-table tr:last-child td {
+  border-bottom: none;
+}
+
+.admin-table tr:hover td {
+  background: rgba(255, 255, 255, 0.04);
+}
+
+/* ROLE BADGES */
+.role-badge {
+  display: inline-block;
+  padding: 0.2rem 0.65rem;
+  border-radius: 20px;
+  font-size: 0.73rem;
+  font-weight: 600;
+}
+
+.role-admin {
+  background: rgba(0, 255, 234, 0.15);
+  color: #00ffea;
+}
+
+.role-user {
+  background: rgba(255, 255, 255, 0.1);
+  color: #ccc;
+}
+
+/* =======================
+   MANAGE USERS PAGE
+======================= */
+
+.manage-main {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+.manage-header {
+  background: rgba(255, 255, 255, 0.08);
+  backdrop-filter: blur(12px);
+  border-radius: 15px;
+  padding: 1.75rem 2rem;
+  box-shadow: 0 15px 30px rgba(0, 0, 0, 0.25);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 1rem;
+}
+
+.manage-header h2 {
+  font-size: 1.4rem;
+  margin-bottom: 0.25rem;
+}
+
+.manage-header p {
+  opacity: 0.75;
+  font-size: 0.88rem;
+}
+
+.table-card {
+  background: rgba(255, 255, 255, 0.08);
+  backdrop-filter: blur(12px);
+  border-radius: 15px;
+  padding: 1.75rem 2rem;
+  box-shadow: 0 15px 30px rgba(0, 0, 0, 0.25);
+  overflow-x: auto;
+}
+
+.search-card {
+  padding: 1.25rem 1.75rem;
+}
+
+.search-bar {
+  display: flex;
+  gap: 0.75rem;
+  flex-wrap: wrap;
+  align-items: center;
+}
+
+.search-bar input,
+.search-bar select {
+  padding: 0.55rem 1rem;
+  border-radius: 6px;
+  border: none;
+  outline: none;
+  font-size: 0.88rem;
+  background: rgba(255, 255, 255, 0.12);
+  color: #fff;
+  flex: 1;
+  min-width: 150px;
+}
+
+.search-bar input::placeholder {
+  color: rgba(255, 255, 255, 0.45);
+}
+
+.search-bar select {
+  flex: 0 0 auto;
+  min-width: 130px;
+}
+
+.search-bar select option {
+  background: #1f4a8f;
+  color: #fff;
+}
+
+.search-bar input:focus,
+.search-bar select:focus {
+  outline: 2px solid #00ffea;
+}
+
+.table-top {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1.2rem;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+}
+
+.table-top h3 {
+  color: #00ffea;
+  font-size: 1rem;
+}
+
+.result-count {
+  font-size: 0.8rem;
+  opacity: 0.55;
+}
+
+.btn-delete {
+  background: rgba(255, 77, 77, 0.15);
+  color: #ff6b6b;
+  border: 1px solid rgba(255, 77, 77, 0.3);
+  padding: 0.35rem 0.9rem;
+  border-radius: 5px;
+  font-size: 0.8rem;
+  cursor: pointer;
+  transition: 0.2s;
+}
+
+.btn-delete:hover {
+  background: rgba(255, 77, 77, 0.3);
+  border-color: rgba(255, 77, 77, 0.6);
+}
+
+/* =======================
+   MODAL (shared)
+======================= */
+
+.modal-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.65);
+  backdrop-filter: blur(6px);
+  z-index: 999;
+  display: none;
+  justify-content: center;
+  align-items: center;
+}
+
+.modal-overlay.show {
+  display: flex;
+}
+
+.modal-box {
+  background: linear-gradient(135deg, #0d1b3d, #1a3570);
+  border: 1px solid rgba(0, 255, 234, 0.2);
+  border-radius: 15px;
+  padding: 2.5rem;
+  width: 100%;
+  max-width: 420px;
+  box-shadow: 0 25px 50px rgba(0, 0, 0, 0.5);
+}
+
+.modal-box--center {
+  text-align: center;
+}
+
+.modal-box h3 {
+  font-size: 1.2rem;
+  margin-bottom: 0.75rem;
+}
+
+.modal-box p {
+  opacity: 0.8;
+  font-size: 0.9rem;
+  margin-bottom: 1.75rem;
+}
+
+.modal-checkmark {
+  font-size: 3rem;
+  margin-bottom: 1rem;
+}
+
+.modal-actions {
+  display: flex;
+  gap: 1rem;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+
+.modal-actions a {
+  text-decoration: none;
+}
+
+.btn-cancel {
+  background: rgba(255, 255, 255, 0.1);
+  color: #fff;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  padding: 0.6rem 1.5rem;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 0.9rem;
+  transition: 0.2s;
+}
+
+.btn-cancel:hover {
+  background: rgba(255, 255, 255, 0.18);
+}
+
+.btn-confirm-delete {
+  background: rgba(255, 77, 77, 0.2);
+  color: #ff6b6b;
+  border: 1px solid rgba(255, 77, 77, 0.4);
+  padding: 0.6rem 1.5rem;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 0.9rem;
+  transition: 0.2s;
+}
+
+.btn-confirm-delete:hover {
+  background: rgba(255, 77, 77, 0.35);
+}
+
+/* =======================
+   ADD USER PAGE
+======================= */
+
+.add-main {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+.add-header {
+  background: rgba(255, 255, 255, 0.08);
+  backdrop-filter: blur(12px);
+  border-radius: 15px;
+  padding: 1.75rem 2rem;
+  box-shadow: 0 15px 30px rgba(0, 0, 0, 0.25);
+}
+
+.add-header h2 {
+  font-size: 1.4rem;
+  margin-bottom: 0.25rem;
+}
+
+.add-header p {
+  opacity: 0.75;
+  font-size: 0.88rem;
+}
+
+.add-body {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1.5rem;
+  align-items: start;
+}
+
+.form-card {
+  background: rgba(255, 255, 255, 0.08);
+  backdrop-filter: blur(12px);
+  border-radius: 15px;
+  padding: 2rem;
+  box-shadow: 0 15px 30px rgba(0, 0, 0, 0.25);
+}
+
+.form-card h3 {
+  color: #00ffea;
+  margin-bottom: 1.5rem;
+  font-size: 1rem;
+}
+
+.add-form {
+  display: flex;
+  flex-direction: column;
+  gap: 1.1rem;
+}
+
+.form-field {
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+}
+
+.form-field label {
+  font-size: 0.82rem;
+  opacity: 0.75;
+}
+
+.form-field input,
+.form-field select {
+  padding: 0.7rem 1rem;
+  border-radius: 6px;
+  border: none;
+  outline: none;
+  font-size: 0.9rem;
+}
+
+.form-field input:focus {
+  outline: 2px solid #00ffea;
+}
+
+.form-field select option {
+  background: #1f4a8f;
+}
+
+/* LIVE PREVIEW CARD */
+.preview-card {
+  background: rgba(255, 255, 255, 0.08);
+  backdrop-filter: blur(12px);
+  border-radius: 15px;
+  padding: 2rem;
+  box-shadow: 0 15px 30px rgba(0, 0, 0, 0.25);
+  text-align: center;
+}
+
+.preview-card h3 {
+  color: #00ffea;
+  margin-bottom: 1.5rem;
+  font-size: 1rem;
+}
+
+.preview-avatar {
+  width: 80px;
+  height: 80px;
+  border-radius: 50%;
+  background: rgba(0, 255, 234, 0.1);
+  border: 2px solid rgba(0, 255, 234, 0.3);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 2rem;
+  margin: 0 auto 1rem;
+}
+
+.preview-name {
+  font-size: 1.1rem;
+  font-weight: 600;
+  margin-bottom: 0.25rem;
+  min-height: 1.5rem;
+}
+
+.preview-email {
+  font-size: 0.85rem;
+  opacity: 0.65;
+  margin-bottom: 1rem;
+  min-height: 1.2rem;
+}
+
+.preview-divider {
+  border: none;
+  border-top: 1px solid rgba(255, 255, 255, 0.1);
+  margin: 1.25rem 0;
+}
+
+.preview-detail {
+  font-size: 0.82rem;
+  opacity: 0.65;
+  margin-bottom: 0.4rem;
+}
+
+.preview-detail strong {
+  color: #fff;
+  opacity: 1;
+}
+
+/* =======================
+   RESPONSIVE
+======================= */
+
+@media (max-width: 850px) {
+  .profile-page,
+  .settings-layout,
+  .admin-layout {
+    grid-template-columns: 1fr;
+  }
+
+  .admin-sidebar {
+    position: static;
+  }
+
+  .add-body {
+    grid-template-columns: 1fr;
+  }
 }
