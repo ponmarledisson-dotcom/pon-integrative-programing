@@ -100,7 +100,7 @@ if (loginForm) {
         window.location.href = "admin.html";
       } else {
         localStorage.setItem("userRole", "user");
-        window.location.href = "profile.html";
+        window.location.href = "countries.html";
       }
     }
   });
@@ -201,7 +201,7 @@ if (signupForm) {
       localStorage.setItem("userName", nameValue);
       localStorage.setItem("userEmail", emailValue);
       localStorage.setItem("userRole", "user");
-      window.location.href = "profile.html";
+      window.location.href = "countries.html";
     }
   });
 }
@@ -647,4 +647,200 @@ function requireAdminAccess() {
 
   setupAdminLogout();
   updateAddPreview();
+})();
+
+// ==============================
+// COUNTRY EXPLORER (countries.html)
+// API: https://restcountries.com (free, no key required)
+// ==============================
+
+(function () {
+  var searchBtn = document.getElementById("searchBtn");
+  var countryInput = document.getElementById("countryInput");
+  if (!searchBtn || !countryInput) return;
+
+  var countryGrid = document.getElementById("countryGrid");
+  var errorBox = document.getElementById("errorBox");
+  var errorMsg = document.getElementById("errorMsg");
+  var loadingBox = document.getElementById("loadingBox");
+
+  // Show loading spinner, hide everything else
+  function showLoading() {
+    loadingBox.style.display = "block";
+    errorBox.style.display = "none";
+    countryGrid.innerHTML = "";
+  }
+
+  // Show error message box
+  function showError(message) {
+    loadingBox.style.display = "none";
+    errorBox.style.display = "block";
+    errorMsg.textContent = message;
+    countryGrid.innerHTML = "";
+  }
+
+  // Hide loading and error
+  function hideAll() {
+    loadingBox.style.display = "none";
+    errorBox.style.display = "none";
+  }
+
+  // Format numbers e.g. 1000000 -> 1,000,000
+  function formatNumber(num) {
+    if (!num && num !== 0) return "N/A";
+    return num.toLocaleString();
+  }
+
+  // Extract currency names from currencies object
+  function getCurrencies(currencies) {
+    if (!currencies) return "N/A";
+    var names = Object.values(currencies).map(function (c) {
+      return c.name + (c.symbol ? " (" + c.symbol + ")" : "");
+    });
+    return names.join(", ") || "N/A";
+  }
+
+  // Extract language names from languages object
+  function getLanguages(languages) {
+    if (!languages) return "N/A";
+    return Object.values(languages).join(", ") || "N/A";
+  }
+
+  // Build a single country card element
+  function buildCard(country) {
+    var name =
+      country.name && country.name.common ? country.name.common : "Unknown";
+    var official =
+      country.name && country.name.official ? country.name.official : "";
+    var capital =
+      country.capital && country.capital[0] ? country.capital[0] : "N/A";
+    var population = formatNumber(country.population);
+    var region = country.region || "N/A";
+    var subregion = country.subregion || "N/A";
+    var currency = getCurrencies(country.currencies);
+    var languages = getLanguages(country.languages);
+    var flagUrl = country.flags && country.flags.png ? country.flags.png : "";
+    var flagAlt =
+      country.flags && country.flags.alt ? country.flags.alt : name + " flag";
+
+    var card = document.createElement("div");
+    card.className = "country-card";
+
+    card.innerHTML =
+      (flagUrl
+        ? '<img class="country-flag" src="' +
+          flagUrl +
+          '" alt="' +
+          flagAlt +
+          '" />'
+        : "") +
+      '<div class="country-card-body">' +
+      '<div class="country-name">' +
+      name +
+      (official && official !== name ? "<span>" + official + "</span>" : "") +
+      "</div>" +
+      '<div class="country-details">' +
+      '<div class="detail-row"><span class="detail-label">Capital</span><span class="detail-value">' +
+      capital +
+      "</span></div>" +
+      '<div class="detail-row"><span class="detail-label">Population</span><span class="detail-value">' +
+      population +
+      "</span></div>" +
+      '<div class="detail-row"><span class="detail-label">Region</span><span class="detail-value">' +
+      region +
+      "</span></div>" +
+      '<div class="detail-row"><span class="detail-label">Subregion</span><span class="detail-value">' +
+      subregion +
+      "</span></div>" +
+      '<div class="detail-row"><span class="detail-label">Currency</span><span class="detail-value">' +
+      currency +
+      "</span></div>" +
+      '<div class="detail-row"><span class="detail-label">Languages</span><span class="detail-value">' +
+      languages +
+      "</span></div>" +
+      "</div>" +
+      "</div>";
+
+    return card;
+  }
+
+  // Main search function — calls the REST Countries API
+  function searchCountry() {
+    var query = countryInput.value.trim();
+
+    // Validate input
+    if (query === "") {
+      showError("Please enter a country name to search.");
+      return;
+    }
+    if (query.length < 2) {
+      showError("Please enter at least 2 characters.");
+      return;
+    }
+
+    showLoading();
+
+    var apiUrl =
+      "https://restcountries.com/v3.1/name/" + encodeURIComponent(query);
+
+    fetch(apiUrl)
+      .then(function (response) {
+        // 404 = country not found
+        if (response.status === 404) {
+          throw new Error(
+            'No country found for "' + query + '". Try a different name.',
+          );
+        }
+        if (!response.ok) {
+          throw new Error(
+            "Request failed with status " +
+              response.status +
+              ". Please try again.",
+          );
+        }
+        return response.json();
+      })
+      .then(function (data) {
+        hideAll();
+
+        if (!data || data.length === 0) {
+          showError('No results found for "' + query + '".');
+          return;
+        }
+
+        // Show result count
+        var countEl = document.createElement("p");
+        countEl.className = "results-count";
+        countEl.textContent =
+          data.length +
+          " result" +
+          (data.length !== 1 ? "s" : "") +
+          ' found for "' +
+          query +
+          '"';
+        countryGrid.appendChild(countEl);
+
+        // Render one card per country
+        data.forEach(function (country) {
+          countryGrid.appendChild(buildCard(country));
+        });
+      })
+      .catch(function (error) {
+        if (error.message === "Failed to fetch") {
+          showError(
+            "Network error. Please check your internet connection and try again.",
+          );
+        } else {
+          showError(error.message);
+        }
+      });
+  }
+
+  // Search on button click
+  searchBtn.addEventListener("click", searchCountry);
+
+  // Search on Enter key
+  countryInput.addEventListener("keydown", function (e) {
+    if (e.key === "Enter") searchCountry();
+  });
 })();

@@ -521,13 +521,6 @@ footer {
   font-size: 0.9rem;
 }
 
-.theme-row {
-  display: flex;
-  align-items: center;
-  gap: 0.5rem;
-  font-size: 0.9rem;
-}
-
 .settings-actions {
   margin-top: 1.5rem;
 }
@@ -550,7 +543,6 @@ footer {
 /* =======================
    FORM VALIDATION STYLES
 ======================= */
-
 .input-error {
   border: 2px solid #ff4d4d !important;
 }
@@ -576,7 +568,6 @@ footer {
 /* =======================
    ADMIN SHARED LAYOUT
 ======================= */
-
 .admin-layout {
   padding: 2.5rem 5%;
   display: grid;
@@ -634,7 +625,6 @@ footer {
 /* =======================
    ADMIN DASHBOARD
 ======================= */
-
 .admin-main {
   display: flex;
   flex-direction: column;
@@ -720,9 +710,8 @@ footer {
 }
 
 /* =======================
-   ADMIN TABLE (shared)
+   ADMIN TABLE
 ======================= */
-
 .admin-table {
   width: 100%;
   border-collapse: collapse;
@@ -753,7 +742,6 @@ footer {
   background: rgba(255, 255, 255, 0.04);
 }
 
-/* ROLE BADGES */
 .role-badge {
   display: inline-block;
   padding: 0.2rem 0.65rem;
@@ -766,7 +754,6 @@ footer {
   background: rgba(0, 255, 234, 0.15);
   color: #00ffea;
 }
-
 .role-user {
   background: rgba(255, 255, 255, 0.1);
   color: #ccc;
@@ -775,7 +762,6 @@ footer {
 /* =======================
    MANAGE USERS PAGE
 ======================= */
-
 .manage-main {
   display: flex;
   flex-direction: column;
@@ -799,7 +785,6 @@ footer {
   font-size: 1.4rem;
   margin-bottom: 0.25rem;
 }
-
 .manage-header p {
   opacity: 0.75;
   font-size: 0.88rem;
@@ -841,17 +826,14 @@ footer {
 .search-bar input::placeholder {
   color: rgba(255, 255, 255, 0.45);
 }
-
 .search-bar select {
   flex: 0 0 auto;
   min-width: 130px;
 }
-
 .search-bar select option {
   background: #1f4a8f;
   color: #fff;
 }
-
 .search-bar input:focus,
 .search-bar select:focus {
   outline: 2px solid #00ffea;
@@ -870,7 +852,6 @@ footer {
   color: #00ffea;
   font-size: 1rem;
 }
-
 .result-count {
   font-size: 0.8rem;
   opacity: 0.55;
@@ -893,9 +874,8 @@ footer {
 }
 
 /* =======================
-   MODAL (shared)
+   MODAL
 ======================= */
-
 .modal-overlay {
   position: fixed;
   inset: 0;
@@ -924,18 +904,15 @@ footer {
 .modal-box--center {
   text-align: center;
 }
-
 .modal-box h3 {
   font-size: 1.2rem;
   margin-bottom: 0.75rem;
 }
-
 .modal-box p {
   opacity: 0.8;
   font-size: 0.9rem;
   margin-bottom: 1.75rem;
 }
-
 .modal-checkmark {
   font-size: 3rem;
   margin-bottom: 1rem;
@@ -985,7 +962,6 @@ footer {
 /* =======================
    ADD USER PAGE
 ======================= */
-
 .add-main {
   display: flex;
   flex-direction: column;
@@ -1004,7 +980,6 @@ footer {
   font-size: 1.4rem;
   margin-bottom: 0.25rem;
 }
-
 .add-header p {
   opacity: 0.75;
   font-size: 0.88rem;
@@ -1042,7 +1017,6 @@ footer {
   flex-direction: column;
   gap: 0.35rem;
 }
-
 .form-field label {
   font-size: 0.82rem;
   opacity: 0.75;
@@ -1060,12 +1034,10 @@ footer {
 .form-field input:focus {
   outline: 2px solid #00ffea;
 }
-
 .form-field select option {
   background: #1f4a8f;
 }
 
-/* LIVE PREVIEW CARD */
 .preview-card {
   background: rgba(255, 255, 255, 0.08);
   backdrop-filter: blur(12px);
@@ -1100,47 +1072,286 @@ footer {
   margin-bottom: 0.25rem;
   min-height: 1.5rem;
 }
-
 .preview-email {
   font-size: 0.85rem;
   opacity: 0.65;
   margin-bottom: 1rem;
   min-height: 1.2rem;
 }
-
 .preview-divider {
   border: none;
   border-top: 1px solid rgba(255, 255, 255, 0.1);
   margin: 1.25rem 0;
 }
-
 .preview-detail {
   font-size: 0.82rem;
   opacity: 0.65;
   margin-bottom: 0.4rem;
 }
-
 .preview-detail strong {
   color: #fff;
   opacity: 1;
 }
 
 /* =======================
-   RESPONSIVE
+   COUNTRY EXPLORER PAGE
 ======================= */
 
+/* Hero */
+.country-hero {
+  text-align: center;
+  padding: 4rem 5% 3rem;
+}
+
+.country-hero h1 {
+  font-size: 2.8rem;
+  margin-bottom: 0.75rem;
+}
+
+.country-hero p {
+  font-size: 1rem;
+  opacity: 0.8;
+  max-width: 520px;
+  margin: 0 auto 2rem;
+  line-height: 1.6;
+}
+
+/* Search bar */
+.country-search-wrap {
+  display: flex;
+  justify-content: center;
+  gap: 0.75rem;
+  flex-wrap: wrap;
+  margin-bottom: 0.75rem;
+}
+
+.country-input {
+  padding: 0.8rem 1.25rem;
+  border-radius: 8px;
+  border: 2px solid rgba(255, 255, 255, 0.15);
+  background: rgba(255, 255, 255, 0.08);
+  color: #fff;
+  font-size: 1rem;
+  width: 340px;
+  outline: none;
+  transition: border-color 0.3s;
+  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+}
+
+.country-input::placeholder {
+  color: rgba(255, 255, 255, 0.4);
+}
+
+.country-input:focus {
+  border-color: #00ffea;
+  background: rgba(255, 255, 255, 0.12);
+}
+
+.country-search-btn {
+  padding: 0.8rem 2rem;
+  font-size: 1rem;
+  border-radius: 8px;
+}
+
+.country-hint {
+  font-size: 0.78rem;
+  opacity: 0.45;
+  margin-top: 0.5rem;
+}
+
+.country-hint a {
+  color: #00ffea;
+  text-decoration: none;
+  opacity: 1;
+}
+.country-hint a:hover {
+  text-decoration: underline;
+}
+
+/* Results section */
+.country-results {
+  padding: 1rem 5% 4rem;
+  min-height: 200px;
+}
+
+/* Error box */
+.country-error {
+  text-align: center;
+  padding: 3rem 1rem;
+  background: rgba(255, 77, 77, 0.08);
+  border: 1px solid rgba(255, 77, 77, 0.25);
+  border-radius: 12px;
+  max-width: 500px;
+  margin: 0 auto;
+}
+
+.error-icon {
+  font-size: 2.5rem;
+  margin-bottom: 0.75rem;
+}
+.country-error p {
+  color: #ff8080;
+  font-size: 0.95rem;
+}
+
+/* Loading spinner */
+.country-loading {
+  text-align: center;
+  padding: 3rem 1rem;
+  opacity: 0.7;
+}
+
+.spinner {
+  width: 40px;
+  height: 40px;
+  border: 3px solid rgba(255, 255, 255, 0.15);
+  border-top-color: #00ffea;
+  border-radius: 50%;
+  margin: 0 auto 1rem;
+  animation: spin 0.8s linear infinite;
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+/* Results grid */
+.country-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 1.5rem;
+  margin-top: 1rem;
+}
+
+/* Country card */
+.country-card {
+  background: rgba(255, 255, 255, 0.08);
+  backdrop-filter: blur(12px);
+  border-radius: 15px;
+  overflow: hidden;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+  transition:
+    transform 0.3s ease,
+    box-shadow 0.3s ease;
+  animation: cardIn 0.4s ease both;
+}
+
+.country-card:hover {
+  transform: translateY(-6px);
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4);
+}
+
+@keyframes cardIn {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.country-flag {
+  width: 100%;
+  height: 170px;
+  object-fit: cover;
+  display: block;
+  border-bottom: 2px solid rgba(0, 255, 234, 0.2);
+}
+
+.country-card-body {
+  padding: 1.25rem 1.5rem 1.5rem;
+}
+
+.country-name {
+  font-size: 1.2rem;
+  font-weight: 700;
+  margin-bottom: 1rem;
+  color: #fff;
+}
+
+.country-name span {
+  font-size: 0.75rem;
+  font-weight: 400;
+  color: #00ffea;
+  margin-left: 0.4rem;
+  opacity: 0.85;
+}
+
+.country-details {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.detail-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 0.875rem;
+  padding-bottom: 0.5rem;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.07);
+}
+
+.detail-row:last-child {
+  border-bottom: none;
+  padding-bottom: 0;
+}
+
+.detail-label {
+  opacity: 0.55;
+  font-size: 0.78rem;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.detail-value {
+  color: #fff;
+  font-weight: 500;
+  text-align: right;
+  max-width: 60%;
+}
+
+.results-count {
+  text-align: center;
+  font-size: 0.82rem;
+  opacity: 0.5;
+  margin-bottom: 1.25rem;
+}
+
+/* =======================
+   RESPONSIVE
+======================= */
 @media (max-width: 850px) {
   .profile-page,
   .settings-layout,
   .admin-layout {
     grid-template-columns: 1fr;
   }
-
   .admin-sidebar {
     position: static;
   }
-
   .add-body {
     grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 600px) {
+  .country-hero h1 {
+    font-size: 2rem;
+  }
+  .country-input {
+    width: 100%;
+  }
+  .country-search-wrap {
+    flex-direction: column;
+    align-items: center;
+  }
+  .country-search-btn {
+    width: 100%;
+    max-width: 340px;
   }
 }
