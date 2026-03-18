@@ -1,0 +1,79 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Saved Countries | Refecire</title>
+    <link rel="stylesheet" href="style.css" />
+  </head>
+
+  <body>
+    <!-- NAVBAR -->
+    <nav class="navbar">
+      <div class="logo">REFECIRE</div>
+      <ul class="nav-links">
+        <li><a href="index.html">Home</a></li>
+        <li><a href="countries.html">Countries</a></li>
+        <li><a href="saved-countries.html" class="nav-active">Saved</a></li>
+        <li><a href="login.html" class="sign-in">Sign In</a></li>
+      </ul>
+    </nav>
+
+    <!-- PAGE HEADER -->
+    <section class="country-hero" style="padding-bottom: 1.5rem">
+      <h1>Saved Countries</h1>
+      <p>
+        Countries you have saved are stored here. Data persists after page
+        refresh.
+      </p>
+    </section>
+
+    <!-- SAVED RESULTS -->
+    <section class="country-results">
+      <!-- COUNT + CLEAR ALL -->
+      <div
+        style="
+          display: flex;
+          justify-content: space-between;
+          align-items: center;
+          margin-bottom: 1rem;
+          flex-wrap: wrap;
+          gap: 0.75rem;
+        "
+      >
+        <span class="results-count" id="savedCount"></span>
+        <button class="btn-secondary btn-sm" id="clearAllBtn">
+          ✕ Clear All
+        </button>
+      </div>
+
+      <!-- EMPTY STATE -->
+      <div class="saved-empty" id="savedEmpty" style="display: none">
+        <div class="saved-empty-icon">🌍</div>
+        <p>No saved countries yet.</p>
+        <a
+          href="countries.html"
+          class="btn-primary"
+          style="
+            display: inline-block;
+            margin-top: 1rem;
+            text-decoration: none;
+            padding: 0.7rem 1.5rem;
+            border-radius: 5px;
+          "
+          >Search Countries →</a
+        >
+      </div>
+
+      <!-- SAVED GRID -->
+      <div class="country-grid" id="savedGrid"></div>
+    </section>
+
+    <!-- FOOTER -->
+    <footer>
+      <p>&copy; 2026 Refecire | Saved Countries</p>
+    </footer>
+
+    <script src="script.js"></script>
+  </body>
+</html>

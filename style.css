@@ -1355,3 +1355,114 @@ footer {
     max-width: 340px;
   }
 }
+
+/* =======================
+   SAVE FEATURE
+======================= */
+
+/* Save button on country cards */
+.btn-save-country {
+  display: block;
+  width: 100%;
+  margin-top: 1rem;
+  padding: 0.6rem 1rem;
+  background: rgba(0, 255, 234, 0.1);
+  color: #00ffea;
+  border: 1px solid rgba(0, 255, 234, 0.35);
+  border-radius: 6px;
+  font-size: 0.85rem;
+  cursor: pointer;
+  transition: 0.2s;
+  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+}
+
+.btn-save-country:hover {
+  background: rgba(0, 255, 234, 0.2);
+  border-color: rgba(0, 255, 234, 0.6);
+}
+
+.btn-save-country--saved {
+  background: rgba(255, 255, 255, 0.06);
+  color: rgba(255, 255, 255, 0.35);
+  border-color: rgba(255, 255, 255, 0.1);
+  cursor: not-allowed;
+}
+
+/* Remove button on saved cards */
+.btn-delete-saved {
+  display: block;
+  width: 100%;
+  margin-top: 1rem;
+  padding: 0.6rem 1rem;
+  background: rgba(255, 77, 77, 0.1);
+  color: #ff6b6b;
+  border: 1px solid rgba(255, 77, 77, 0.3);
+  border-radius: 6px;
+  font-size: 0.85rem;
+  cursor: pointer;
+  transition: 0.2s;
+  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+}
+
+.btn-delete-saved:hover {
+  background: rgba(255, 77, 77, 0.25);
+  border-color: rgba(255, 77, 77, 0.6);
+}
+
+/* Toast notification */
+.save-toast {
+  position: fixed;
+  bottom: 1.5rem;
+  right: 1.5rem;
+  padding: 0.75rem 1.25rem;
+  border-radius: 8px;
+  font-size: 0.88rem;
+  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+  z-index: 9999;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.4);
+  animation: toastIn 0.3s ease;
+}
+
+.save-toast--success {
+  background: rgba(0, 255, 234, 0.15);
+  border: 1px solid rgba(0, 255, 234, 0.35);
+  color: #00ffea;
+}
+
+.save-toast--duplicate {
+  background: rgba(255, 180, 0, 0.12);
+  border: 1px solid rgba(255, 180, 0, 0.35);
+  color: #ffd166;
+}
+
+@keyframes toastIn {
+  from {
+    opacity: 0;
+    transform: translateY(12px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Empty state on saved-countries.html */
+.saved-empty {
+  text-align: center;
+  padding: 4rem 1rem;
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px dashed rgba(255, 255, 255, 0.15);
+  border-radius: 15px;
+  max-width: 420px;
+  margin: 0 auto;
+}
+
+.saved-empty-icon {
+  font-size: 3rem;
+  margin-bottom: 0.75rem;
+}
+
+.saved-empty p {
+  opacity: 0.55;
+  font-size: 0.95rem;
+}

@@ -664,14 +664,14 @@ function requireAdminAccess() {
   var errorMsg = document.getElementById("errorMsg");
   var loadingBox = document.getElementById("loadingBox");
 
-  // Show loading spinner, hide everything else
+  // --- SHOW / HIDE HELPERS ---
+
   function showLoading() {
     loadingBox.style.display = "block";
     errorBox.style.display = "none";
     countryGrid.innerHTML = "";
   }
 
-  // Show error message box
   function showError(message) {
     loadingBox.style.display = "none";
     errorBox.style.display = "block";
@@ -679,19 +679,20 @@ function requireAdminAccess() {
     countryGrid.innerHTML = "";
   }
 
-  // Hide loading and error
   function hideAll() {
     loadingBox.style.display = "none";
     errorBox.style.display = "none";
   }
 
-  // Format numbers e.g. 1000000 -> 1,000,000
+  // --- FORMAT NUMBERS e.g. 1000000 -> 1,000,000 ---
+
   function formatNumber(num) {
     if (!num && num !== 0) return "N/A";
     return num.toLocaleString();
   }
 
-  // Extract currency names from currencies object
+  // --- EXTRACT CURRENCIES ---
+
   function getCurrencies(currencies) {
     if (!currencies) return "N/A";
     var names = Object.values(currencies).map(function (c) {
@@ -700,13 +701,50 @@ function requireAdminAccess() {
     return names.join(", ") || "N/A";
   }
 
-  // Extract language names from languages object
+  // --- EXTRACT LANGUAGES ---
+
   function getLanguages(languages) {
     if (!languages) return "N/A";
     return Object.values(languages).join(", ") || "N/A";
   }
 
-  // Build a single country card element
+  // --- LOCALSTORAGE SAVE HELPERS ---
+
+  function getSavedCountries() {
+    return JSON.parse(localStorage.getItem("refecire_saved_countries") || "[]");
+  }
+
+  function saveCountry(data) {
+    var saved = getSavedCountries();
+    // Prevent duplicates — check by country name
+    var already = saved.find(function (c) {
+      return c.name === data.name;
+    });
+    if (already) return false;
+    saved.push(data);
+    localStorage.setItem("refecire_saved_countries", JSON.stringify(saved));
+    return true;
+  }
+
+  // --- TOAST NOTIFICATION ---
+
+  function showToast(message, success) {
+    var existing = document.getElementById("save-toast");
+    if (existing) existing.remove();
+    var toast = document.createElement("div");
+    toast.id = "save-toast";
+    toast.className =
+      "save-toast " +
+      (success ? "save-toast--success" : "save-toast--duplicate");
+    toast.textContent = message;
+    document.body.appendChild(toast);
+    setTimeout(function () {
+      toast.remove();
+    }, 2500);
+  }
+
+  // --- BUILD ONE COUNTRY CARD ---
+
   function buildCard(country) {
     var name =
       country.name && country.name.common ? country.name.common : "Unknown";
@@ -759,16 +797,55 @@ function requireAdminAccess() {
       languages +
       "</span></div>" +
       "</div>" +
+      '<button class="btn-save-country">&#9733; Save Country</button>' +
       "</div>";
+
+    // Handle save button state and click
+    var saveBtn = card.querySelector(".btn-save-country");
+    var saved = getSavedCountries();
+
+    // If already saved, mark button as saved immediately
+    if (
+      saved.find(function (c) {
+        return c.name === name;
+      })
+    ) {
+      saveBtn.textContent = "✓ Saved";
+      saveBtn.disabled = true;
+      saveBtn.classList.add("btn-save-country--saved");
+    }
+
+    saveBtn.addEventListener("click", function () {
+      var result = saveCountry({
+        name: name,
+        official: official,
+        capital: capital,
+        population: population,
+        region: region,
+        subregion: subregion,
+        currency: currency,
+        languages: languages,
+        flagUrl: flagUrl,
+        flagAlt: flagAlt,
+      });
+      if (result) {
+        saveBtn.textContent = "✓ Saved";
+        saveBtn.disabled = true;
+        saveBtn.classList.add("btn-save-country--saved");
+        showToast("✓ " + name + " saved successfully!", true);
+      } else {
+        showToast("⚠ " + name + " is already saved.", false);
+      }
+    });
 
     return card;
   }
 
-  // Main search function — calls the REST Countries API
+  // --- MAIN SEARCH FUNCTION ---
+
   function searchCountry() {
     var query = countryInput.value.trim();
 
-    // Validate input
     if (query === "") {
       showError("Please enter a country name to search.");
       return;
@@ -785,7 +862,6 @@ function requireAdminAccess() {
 
     fetch(apiUrl)
       .then(function (response) {
-        // 404 = country not found
         if (response.status === 404) {
           throw new Error(
             'No country found for "' + query + '". Try a different name.',
@@ -843,4 +919,110 @@ function requireAdminAccess() {
   countryInput.addEventListener("keydown", function (e) {
     if (e.key === "Enter") searchCountry();
   });
+})();
+
+// ==============================
+// SAVED COUNTRIES (saved-countries.html)
+// ==============================
+
+(function () {
+  var savedGrid = document.getElementById("savedGrid");
+  if (!savedGrid) return;
+
+  function getSavedCountries() {
+    return JSON.parse(localStorage.getItem("refecire_saved_countries") || "[]");
+  }
+
+  function deleteSavedCountry(name) {
+    var updated = getSavedCountries().filter(function (c) {
+      return c.name !== name;
+    });
+    localStorage.setItem("refecire_saved_countries", JSON.stringify(updated));
+  }
+
+  function renderSaved() {
+    var saved = getSavedCountries();
+    var emptyState = document.getElementById("savedEmpty");
+    var countEl = document.getElementById("savedCount");
+
+    if (saved.length === 0) {
+      savedGrid.innerHTML = "";
+      emptyState.style.display = "block";
+      countEl.textContent = "";
+      return;
+    }
+
+    emptyState.style.display = "none";
+    countEl.textContent =
+      saved.length + " saved countr" + (saved.length !== 1 ? "ies" : "y");
+
+    savedGrid.innerHTML = "";
+
+    saved.forEach(function (c) {
+      var card = document.createElement("div");
+      card.className = "country-card";
+      card.id = "saved-" + c.name.replace(/\s+/g, "-");
+
+      card.innerHTML =
+        (c.flagUrl
+          ? '<img class="country-flag" src="' +
+            c.flagUrl +
+            '" alt="' +
+            c.flagAlt +
+            '" />'
+          : "") +
+        '<div class="country-card-body">' +
+        '<div class="country-name">' +
+        c.name +
+        (c.official && c.official !== c.name
+          ? "<span>" + c.official + "</span>"
+          : "") +
+        "</div>" +
+        '<div class="country-details">' +
+        '<div class="detail-row"><span class="detail-label">Capital</span><span class="detail-value">' +
+        c.capital +
+        "</span></div>" +
+        '<div class="detail-row"><span class="detail-label">Population</span><span class="detail-value">' +
+        c.population +
+        "</span></div>" +
+        '<div class="detail-row"><span class="detail-label">Region</span><span class="detail-value">' +
+        c.region +
+        "</span></div>" +
+        '<div class="detail-row"><span class="detail-label">Subregion</span><span class="detail-value">' +
+        c.subregion +
+        "</span></div>" +
+        '<div class="detail-row"><span class="detail-label">Currency</span><span class="detail-value">' +
+        c.currency +
+        "</span></div>" +
+        '<div class="detail-row"><span class="detail-label">Languages</span><span class="detail-value">' +
+        c.languages +
+        "</span></div>" +
+        "</div>" +
+        '<button class="btn-delete-saved" data-name="' +
+        c.name.replace(/"/g, "&quot;") +
+        '">✕ Remove</button>' +
+        "</div>";
+
+      // Delete button
+      card
+        .querySelector(".btn-delete-saved")
+        .addEventListener("click", function () {
+          deleteSavedCountry(this.dataset.name);
+          renderSaved();
+        });
+
+      savedGrid.appendChild(card);
+    });
+  }
+
+  // Clear all button
+  var clearAllBtn = document.getElementById("clearAllBtn");
+  if (clearAllBtn) {
+    clearAllBtn.addEventListener("click", function () {
+      localStorage.removeItem("refecire_saved_countries");
+      renderSaved();
+    });
+  }
+
+  renderSaved();
 })();
