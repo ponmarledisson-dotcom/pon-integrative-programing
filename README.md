@@ -145,3 +145,52 @@ I used AI tools to help with the layout and structure of the admin pages and to 
 # Learning Reflection
 
 From this activity, I learned how to build an admin-side interface for a web application. I understood how role-based access control works using JavaScript and localStorage. I also learned how to separate HTML, CSS, and JavaScript into different files to keep the code clean and organized. The most challenging part was debugging the login redirect issue, which turned out to be caused by illegal return statements crashing the entire script silently.
+
+# ACTIVITY 6 March 16, 2026
+
+Project Title - Country Explorer
+Description
+Country Explorer is a page added to the Refecire project that uses the REST Countries API to let users search for any country in the world. When the user types a country name and clicks Search, the app fetches real data from the API and displays it as cards showing the flag, capital, population, region, subregion, currency, and languages of the matching countries.
+API Used
+
+REST Countries API (https://restcountries.com)
+Free, public, no API key required, safe for GitHub Pages deployment
+Returns country data in JSON format including name, flag, capital, population, region, currency, and languages
+
+# Features
+
+Search any country by name
+Displays results as cards with the country flag image
+Shows capital, population, region, subregion, currency, and languages for each result
+Handles multiple results when a search matches more than one country
+Loading spinner shown while the API request is in progress
+Error handling for empty input, country not found, and network failures
+Enter key support so users can search without clicking the button
+Fully consistent with the existing Refecire design (dark blue theme, cyan accent)
+HTML, CSS, and JavaScript separated into countries.html, style.css, and script.js
+
+How to Use
+
+Log in using any email and password (6 or more characters)
+You will be redirected to the Country Explorer page automatically
+Type a country name in the search box (e.g. Philippines, Japan, Brazil)
+Press Enter or click the Search button
+View the country cards displaying flag, capital, population, region, subregion, currency, and languages
+If no country is found an error message will appear explaining what went wrong
+
+# Challenges Encountered
+
+Understanding how to use fetch() to call an external API and process the JSON response
+Handling cases where the API returns a 404 status when a country is not found, which required checking response.status before calling response.json()
+Extracting nested data from the API response such as currencies and languages which are stored as objects rather than simple strings
+Making sure error messages appear clearly for all failure cases including empty input, no results, and network errors
+Keeping the new page visually consistent with the rest of the Refecire project
+
+# AI Assistance Disclosure (Required)
+
+Did you use AI tools? Yes
+I used AI tools to help build the Country Explorer page. It helped with the fetch logic, JSON data extraction, error handling, and styling. All code was reviewed, edited, and tested by me.
+
+# Learning Reflection
+
+From this activity, I learned how to integrate a public API into a web project using fetch() in JavaScript. I understood how to process JSON responses and display data dynamically on the page. I also learned how to handle different error cases such as invalid input, no results found, and network failures. The most challenging part was understanding the structure of the API response since some fields like currencies and languages were nested objects rather than simple values.
