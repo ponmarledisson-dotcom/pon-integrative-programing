@@ -11,7 +11,6 @@ if (newsletterForm) {
 
   newsletterForm.addEventListener("submit", function (e) {
     e.preventDefault();
-
     const emailValue = emailInput.value.trim();
     const emailPattern = /^[^ ]+@[^ ]+\.[a-z]{2,}$/;
 
@@ -24,13 +23,11 @@ if (newsletterForm) {
       emailInput.classList.add("input-error");
       return;
     }
-
     if (!emailPattern.test(emailValue)) {
       emailError.textContent = "Please enter a valid email address.";
       emailInput.classList.add("input-error");
       return;
     }
-
     emailInput.classList.add("input-success");
     successMessage.textContent = "Successfully subscribed!";
     newsletterForm.reset();
@@ -94,13 +91,12 @@ if (loginForm) {
 
     if (isValid) {
       localStorage.setItem("userEmail", emailValue);
-
       if (emailValue === "admin@refecire.com") {
         localStorage.setItem("userRole", "admin");
         window.location.href = "admin.html";
       } else {
         localStorage.setItem("userRole", "user");
-        window.location.href = "countries.html";
+        window.location.href = "gadgets.html";
       }
     }
   });
@@ -119,7 +115,6 @@ if (signupForm) {
   const signupConfirmPassword = document.getElementById(
     "signupConfirmPassword",
   );
-
   const signupNameError = document.getElementById("signupNameError");
   const signupEmailError = document.getElementById("signupEmailError");
   const signupPasswordError = document.getElementById("signupPasswordError");
@@ -135,7 +130,6 @@ if (signupForm) {
     const passwordValue = signupPassword.value.trim();
     const confirmPasswordValue = signupConfirmPassword.value.trim();
     const emailPattern = /^[^ ]+@[^ ]+\.[a-z]{2,}$/;
-
     let isValid = true;
 
     signupNameError.textContent = "";
@@ -201,7 +195,7 @@ if (signupForm) {
       localStorage.setItem("userName", nameValue);
       localStorage.setItem("userEmail", emailValue);
       localStorage.setItem("userRole", "user");
-      window.location.href = "countries.html";
+      window.location.href = "gadgets.html";
     }
   });
 }
@@ -225,12 +219,10 @@ if (profileName) {
     profileName.textContent = storedName;
     profileNameDetails.textContent = storedName;
   }
-
   if (storedEmail) {
     profileEmail.textContent = storedEmail;
     profileEmailDetails.textContent = storedEmail;
   }
-
   if (storedAddress && profileAddress) {
     profileAddress.textContent = storedAddress;
   }
@@ -241,7 +233,6 @@ if (profileName) {
 // =============================
 
 const logoutBtn = document.getElementById("logoutBtn");
-
 if (logoutBtn) {
   logoutBtn.addEventListener("click", function () {
     localStorage.clear();
@@ -253,15 +244,12 @@ if (logoutBtn) {
 // =============================
 
 const saveSettings = document.getElementById("saveSettings");
-
 if (saveSettings) {
   saveSettings.addEventListener("click", function () {
     const newEmail = document.getElementById("email").value;
     const newAddress = document.getElementById("address").value;
-
     if (newEmail) localStorage.setItem("userEmail", newEmail);
     if (newAddress) localStorage.setItem("userAddress", newAddress);
-
     alert("Settings updated successfully!");
   });
 }
@@ -324,7 +312,6 @@ function requireAdminAccess() {
 (function () {
   const adminWelcome = document.getElementById("adminName");
   if (!adminWelcome) return;
-
   if (!requireAdminAccess()) return;
 
   const storedAdminName = localStorage.getItem("userName");
@@ -348,8 +335,7 @@ function requireAdminAccess() {
 
   if (recentList.length === 0) {
     recentBody.innerHTML =
-      '<tr><td colspan="4" style="text-align:center;opacity:0.5;padding:1.5rem;">' +
-      'No users yet. <a href="add-user.html" style="color:#00ffea;">Add one →</a></td></tr>';
+      '<tr><td colspan="4" style="text-align:center;opacity:0.5;padding:1.5rem;">No users yet. <a href="add-user.html" style="color:#00ffea;">Add one →</a></td></tr>';
   } else {
     recentBody.innerHTML = recentList
       .map(function (u) {
@@ -385,7 +371,6 @@ function requireAdminAccess() {
 (function () {
   const usersTableBody = document.getElementById("usersTableBody");
   if (!usersTableBody) return;
-
   if (!requireAdminAccess()) return;
 
   var pendingDeleteId = null;
@@ -395,14 +380,11 @@ function requireAdminAccess() {
     if (countEl)
       countEl.textContent =
         users.length + " user" + (users.length !== 1 ? "s" : "") + " found";
-
     if (users.length === 0) {
       usersTableBody.innerHTML =
-        '<tr><td colspan="5" style="text-align:center;opacity:0.5;padding:2rem;">' +
-        'No users found. <a href="add-user.html" style="color:#00ffea;">Add one →</a></td></tr>';
+        '<tr><td colspan="5" style="text-align:center;opacity:0.5;padding:2rem;">No users found. <a href="add-user.html" style="color:#00ffea;">Add one →</a></td></tr>';
       return;
     }
-
     usersTableBody.innerHTML = users
       .map(function (u) {
         return (
@@ -411,11 +393,9 @@ function requireAdminAccess() {
           '">' +
           '<td style="opacity:0.5;">#' +
           u.id +
-          "</td>" +
-          "<td>" +
+          "</td><td>" +
           u.name +
-          "</td>" +
-          "<td>" +
+          "</td><td>" +
           u.email +
           "</td>" +
           '<td><span class="role-badge ' +
@@ -427,12 +407,10 @@ function requireAdminAccess() {
           u.id +
           '" data-name="' +
           u.name.replace(/"/g, "&quot;") +
-          '">Delete</button></td>' +
-          "</tr>"
+          '">Delete</button></td></tr>'
         );
       })
       .join("");
-
     usersTableBody.querySelectorAll(".btn-delete").forEach(function (btn) {
       btn.addEventListener("click", function () {
         openDeleteModal(Number(this.dataset.id), this.dataset.name);
@@ -443,14 +421,15 @@ function requireAdminAccess() {
   function filterUsers() {
     var search = document.getElementById("searchInput").value.toLowerCase();
     var role = document.getElementById("roleFilter").value;
-    var list = getUsers().filter(function (u) {
-      var matchSearch =
-        u.name.toLowerCase().includes(search) ||
-        u.email.toLowerCase().includes(search);
-      var matchRole = !role || u.role === role;
-      return matchSearch && matchRole;
-    });
-    renderUsersTable(list);
+    renderUsersTable(
+      getUsers().filter(function (u) {
+        return (
+          (u.name.toLowerCase().includes(search) ||
+            u.email.toLowerCase().includes(search)) &&
+          (!role || u.role === role)
+        );
+      }),
+    );
   }
 
   function openDeleteModal(id, name) {
@@ -510,7 +489,6 @@ function requireAdminAccess() {
 (function () {
   const addUserBtn = document.getElementById("addUserBtn");
   if (!addUserBtn) return;
-
   if (!requireAdminAccess()) return;
 
   var today = new Date().toISOString().split("T")[0];
@@ -521,13 +499,11 @@ function requireAdminAccess() {
     var name = document.getElementById("addName").value.trim();
     var email = document.getElementById("addEmail").value.trim();
     var role = document.getElementById("addRole").value;
-
     document.getElementById("prevName").textContent = name || "New User";
     document.getElementById("prevEmail").textContent =
       email || "email@example.com";
     document.getElementById("prevRole").textContent =
       role.charAt(0).toUpperCase() + role.slice(1);
-
     var badge = document.getElementById("prevRoleBadge");
     badge.textContent = role;
     badge.className =
@@ -541,6 +517,7 @@ function requireAdminAccess() {
     var password = document.getElementById("addPassword").value;
     var confirm = document.getElementById("addConfirm").value;
     var emailPat = /^[^ ]+@[^ ]+\.[a-z]{2,}$/i;
+    var valid = true;
 
     ["errName", "errEmail", "errPassword", "errConfirm"].forEach(function (id) {
       document.getElementById(id).textContent = "";
@@ -551,8 +528,6 @@ function requireAdminAccess() {
         .classList.remove("input-error", "input-success");
     });
 
-    var valid = true;
-
     if (!name || name.length < 2) {
       document.getElementById("errName").textContent =
         "Full name must be at least 2 characters.";
@@ -561,7 +536,6 @@ function requireAdminAccess() {
     } else {
       document.getElementById("addName").classList.add("input-success");
     }
-
     if (!email || !emailPat.test(email)) {
       document.getElementById("errEmail").textContent =
         "Please enter a valid email address.";
@@ -579,7 +553,6 @@ function requireAdminAccess() {
     } else {
       document.getElementById("addEmail").classList.add("input-success");
     }
-
     if (!password || password.length < 6) {
       document.getElementById("errPassword").textContent =
         "Password must be at least 6 characters.";
@@ -588,7 +561,6 @@ function requireAdminAccess() {
     } else {
       document.getElementById("addPassword").classList.add("input-success");
     }
-
     if (!confirm || confirm !== password) {
       document.getElementById("errConfirm").textContent =
         "Passwords do not match.";
@@ -599,18 +571,15 @@ function requireAdminAccess() {
     }
 
     if (!valid) return;
-
     var users = getUsers();
-    var newUser = {
+    users.push({
       id: getNextId(),
       name: name,
       email: email,
       role: role,
       joined: today,
-    };
-    users.push(newUser);
+    });
     saveUsers(users);
-
     document.getElementById("modalUserName").textContent = name;
     document.getElementById("successModal").classList.add("show");
   }
@@ -650,33 +619,37 @@ function requireAdminAccess() {
 })();
 
 // ==============================
-// COUNTRY EXPLORER (countries.html)
-// API: https://restcountries.com (free, no key required)
+// GADGET SHOP (gadgets.html)
+// API: https://dummyjson.com/products/search?q=KEYWORD
+// Public, free, no API key, safe for GitHub Pages
 // ==============================
 
 (function () {
-  var searchBtn = document.getElementById("searchBtn");
-  var countryInput = document.getElementById("countryInput");
-  if (!searchBtn || !countryInput) return;
+  var searchBtn = document.getElementById("gadgetSearchBtn");
+  var gadgetInput = document.getElementById("gadgetInput");
+  if (!searchBtn || !gadgetInput) return;
 
-  var countryGrid = document.getElementById("countryGrid");
-  var errorBox = document.getElementById("errorBox");
-  var errorMsg = document.getElementById("errorMsg");
-  var loadingBox = document.getElementById("loadingBox");
+  var gadgetGrid = document.getElementById("gadgetGrid");
+  var errorBox = document.getElementById("gadgetErrorBox");
+  var errorMsg = document.getElementById("gadgetErrorMsg");
+  var loadingBox = document.getElementById("gadgetLoadingBox");
+  var resultCount = document.getElementById("gadgetResultCount");
 
-  // --- SHOW / HIDE HELPERS ---
+  // --- UI STATE HELPERS ---
 
   function showLoading() {
     loadingBox.style.display = "block";
     errorBox.style.display = "none";
-    countryGrid.innerHTML = "";
+    gadgetGrid.innerHTML = "";
+    resultCount.textContent = "";
   }
 
   function showError(message) {
     loadingBox.style.display = "none";
     errorBox.style.display = "block";
     errorMsg.textContent = message;
-    countryGrid.innerHTML = "";
+    gadgetGrid.innerHTML = "";
+    resultCount.textContent = "";
   }
 
   function hideAll() {
@@ -684,45 +657,23 @@ function requireAdminAccess() {
     errorBox.style.display = "none";
   }
 
-  // --- FORMAT NUMBERS e.g. 1000000 -> 1,000,000 ---
+  // --- LOCALSTORAGE HELPERS ---
 
-  function formatNumber(num) {
-    if (!num && num !== 0) return "N/A";
-    return num.toLocaleString();
+  function getSavedGadgets() {
+    return JSON.parse(localStorage.getItem("refecire_saved_gadgets") || "[]");
   }
 
-  // --- EXTRACT CURRENCIES ---
-
-  function getCurrencies(currencies) {
-    if (!currencies) return "N/A";
-    var names = Object.values(currencies).map(function (c) {
-      return c.name + (c.symbol ? " (" + c.symbol + ")" : "");
-    });
-    return names.join(", ") || "N/A";
-  }
-
-  // --- EXTRACT LANGUAGES ---
-
-  function getLanguages(languages) {
-    if (!languages) return "N/A";
-    return Object.values(languages).join(", ") || "N/A";
-  }
-
-  // --- LOCALSTORAGE SAVE HELPERS ---
-
-  function getSavedCountries() {
-    return JSON.parse(localStorage.getItem("refecire_saved_countries") || "[]");
-  }
-
-  function saveCountry(data) {
-    var saved = getSavedCountries();
-    // Prevent duplicates — check by country name
-    var already = saved.find(function (c) {
-      return c.name === data.name;
-    });
-    if (already) return false;
+  function saveGadget(data) {
+    var saved = getSavedGadgets();
+    // Check by id to prevent duplicates
+    if (
+      saved.find(function (g) {
+        return g.id === data.id;
+      })
+    )
+      return false;
     saved.push(data);
-    localStorage.setItem("refecire_saved_countries", JSON.stringify(saved));
+    localStorage.setItem("refecire_saved_gadgets", JSON.stringify(saved));
     return true;
   }
 
@@ -743,130 +694,124 @@ function requireAdminAccess() {
     }, 2500);
   }
 
-  // --- BUILD ONE COUNTRY CARD ---
+  // --- BUILD STAR RATING STRING ---
 
-  function buildCard(country) {
-    var name =
-      country.name && country.name.common ? country.name.common : "Unknown";
-    var official =
-      country.name && country.name.official ? country.name.official : "";
-    var capital =
-      country.capital && country.capital[0] ? country.capital[0] : "N/A";
-    var population = formatNumber(country.population);
-    var region = country.region || "N/A";
-    var subregion = country.subregion || "N/A";
-    var currency = getCurrencies(country.currencies);
-    var languages = getLanguages(country.languages);
-    var flagUrl = country.flags && country.flags.png ? country.flags.png : "";
-    var flagAlt =
-      country.flags && country.flags.alt ? country.flags.alt : name + " flag";
+  function buildStars(rating) {
+    if (!rating) return "";
+    var full = Math.round(rating);
+    var stars = "";
+    for (var i = 0; i < 5; i++) stars += i < full ? "★" : "☆";
+    return stars + " " + Number(rating).toFixed(1);
+  }
+
+  // --- BUILD ONE PRODUCT CARD ---
+
+  function buildCard(product) {
+    var saved = getSavedGadgets();
+    var isSaved = !!saved.find(function (g) {
+      return g.id === product.id;
+    });
 
     var card = document.createElement("div");
-    card.className = "country-card";
+    card.className = "gadget-card";
 
     card.innerHTML =
-      (flagUrl
-        ? '<img class="country-flag" src="' +
-          flagUrl +
-          '" alt="' +
-          flagAlt +
-          '" />'
-        : "") +
-      '<div class="country-card-body">' +
-      '<div class="country-name">' +
-      name +
-      (official && official !== name ? "<span>" + official + "</span>" : "") +
+      '<div class="gadget-img-wrap">' +
+      '<img class="gadget-img" src="' +
+      product.thumbnail +
+      '" alt="' +
+      product.title +
+      '" loading="lazy" />' +
       "</div>" +
-      '<div class="country-details">' +
-      '<div class="detail-row"><span class="detail-label">Capital</span><span class="detail-value">' +
-      capital +
-      "</span></div>" +
-      '<div class="detail-row"><span class="detail-label">Population</span><span class="detail-value">' +
-      population +
-      "</span></div>" +
-      '<div class="detail-row"><span class="detail-label">Region</span><span class="detail-value">' +
-      region +
-      "</span></div>" +
-      '<div class="detail-row"><span class="detail-label">Subregion</span><span class="detail-value">' +
-      subregion +
-      "</span></div>" +
-      '<div class="detail-row"><span class="detail-label">Currency</span><span class="detail-value">' +
-      currency +
-      "</span></div>" +
-      '<div class="detail-row"><span class="detail-label">Languages</span><span class="detail-value">' +
-      languages +
-      "</span></div>" +
+      '<div class="gadget-card-body">' +
+      '<div class="gadget-category">' +
+      product.category +
       "</div>" +
-      '<button class="btn-save-country">&#9733; Save Country</button>' +
+      '<div class="gadget-title">' +
+      product.title +
+      "</div>" +
+      '<div class="gadget-rating">' +
+      buildStars(product.rating) +
+      "</div>" +
+      '<div class="gadget-price">$' +
+      Number(product.price).toFixed(2) +
+      "</div>" +
+      '<button class="btn-save-gadget' +
+      (isSaved ? " btn-save-gadget--saved" : "") +
+      '"' +
+      (isSaved ? " disabled" : "") +
+      ">" +
+      (isSaved ? "✓ Saved" : "★ Save Gadget") +
+      "</button>" +
       "</div>";
 
-    // Handle save button state and click
-    var saveBtn = card.querySelector(".btn-save-country");
-    var saved = getSavedCountries();
-
-    // If already saved, mark button as saved immediately
-    if (
-      saved.find(function (c) {
-        return c.name === name;
-      })
-    ) {
-      saveBtn.textContent = "✓ Saved";
-      saveBtn.disabled = true;
-      saveBtn.classList.add("btn-save-country--saved");
-    }
-
+    // Wire up save button
+    var saveBtn = card.querySelector(".btn-save-gadget");
     saveBtn.addEventListener("click", function () {
-      var result = saveCountry({
-        name: name,
-        official: official,
-        capital: capital,
-        population: population,
-        region: region,
-        subregion: subregion,
-        currency: currency,
-        languages: languages,
-        flagUrl: flagUrl,
-        flagAlt: flagAlt,
+      var result = saveGadget({
+        id: product.id,
+        title: product.title,
+        price: product.price,
+        category: product.category,
+        thumbnail: product.thumbnail,
+        rating: product.rating,
       });
       if (result) {
         saveBtn.textContent = "✓ Saved";
         saveBtn.disabled = true;
-        saveBtn.classList.add("btn-save-country--saved");
-        showToast("✓ " + name + " saved successfully!", true);
+        saveBtn.classList.add("btn-save-gadget--saved");
+        showToast("✓ " + product.title.substring(0, 35) + "… saved!", true);
       } else {
-        showToast("⚠ " + name + " is already saved.", false);
+        showToast("⚠ Already saved.", false);
       }
     });
 
     return card;
   }
 
-  // --- MAIN SEARCH FUNCTION ---
+  // --- RENDER RESULTS ---
 
-  function searchCountry() {
-    var query = countryInput.value.trim();
+  function renderProducts(products) {
+    hideAll();
 
-    if (query === "") {
-      showError("Please enter a country name to search.");
+    if (!products || products.length === 0) {
+      showError("No products found for that search. Try a different keyword.");
       return;
     }
-    if (query.length < 2) {
+
+    resultCount.textContent =
+      products.length +
+      " product" +
+      (products.length !== 1 ? "s" : "") +
+      " found";
+    gadgetGrid.innerHTML = "";
+    products.forEach(function (p) {
+      gadgetGrid.appendChild(buildCard(p));
+    });
+  }
+
+  // --- MAIN SEARCH — calls DummyJSON search endpoint ---
+
+  function searchGadgets(query) {
+    if (!query || query.trim() === "") {
+      showError("Please enter a product name to search.");
+      return;
+    }
+    if (query.trim().length < 2) {
       showError("Please enter at least 2 characters.");
       return;
     }
 
     showLoading();
 
+    // DummyJSON search endpoint — returns products matching keyword
     var apiUrl =
-      "https://restcountries.com/v3.1/name/" + encodeURIComponent(query);
+      "https://dummyjson.com/products/search?q=" +
+      encodeURIComponent(query.trim()) +
+      "&limit=30";
 
     fetch(apiUrl)
       .then(function (response) {
-        if (response.status === 404) {
-          throw new Error(
-            'No country found for "' + query + '". Try a different name.',
-          );
-        }
         if (!response.ok) {
           throw new Error(
             "Request failed with status " +
@@ -877,29 +822,8 @@ function requireAdminAccess() {
         return response.json();
       })
       .then(function (data) {
-        hideAll();
-
-        if (!data || data.length === 0) {
-          showError('No results found for "' + query + '".');
-          return;
-        }
-
-        // Show result count
-        var countEl = document.createElement("p");
-        countEl.className = "results-count";
-        countEl.textContent =
-          data.length +
-          " result" +
-          (data.length !== 1 ? "s" : "") +
-          ' found for "' +
-          query +
-          '"';
-        countryGrid.appendChild(countEl);
-
-        // Render one card per country
-        data.forEach(function (country) {
-          countryGrid.appendChild(buildCard(country));
-        });
+        // DummyJSON returns { products: [...], total: N }
+        renderProducts(data.products || []);
       })
       .catch(function (error) {
         if (error.message === "Failed to fetch") {
@@ -912,102 +836,111 @@ function requireAdminAccess() {
       });
   }
 
-  // Search on button click
-  searchBtn.addEventListener("click", searchCountry);
+  // --- EVENT LISTENERS ---
 
-  // Search on Enter key
-  countryInput.addEventListener("keydown", function (e) {
-    if (e.key === "Enter") searchCountry();
+  // Search button click
+  searchBtn.addEventListener("click", function () {
+    searchGadgets(gadgetInput.value);
+  });
+
+  // Enter key in input
+  gadgetInput.addEventListener("keydown", function (e) {
+    if (e.key === "Enter") searchGadgets(gadgetInput.value);
+  });
+
+  // Quick shortcut buttons
+  document.querySelectorAll(".cat-btn").forEach(function (btn) {
+    btn.addEventListener("click", function () {
+      var query = this.dataset.q;
+      gadgetInput.value = query;
+      // Highlight active button
+      document.querySelectorAll(".cat-btn").forEach(function (b) {
+        b.classList.remove("active");
+      });
+      this.classList.add("active");
+      searchGadgets(query);
+    });
   });
 })();
 
 // ==============================
-// SAVED COUNTRIES (saved-countries.html)
+// SAVED GADGETS (saved-gadgets.html)
 // ==============================
 
 (function () {
-  var savedGrid = document.getElementById("savedGrid");
+  var savedGrid = document.getElementById("savedGadgetGrid");
   if (!savedGrid) return;
 
-  function getSavedCountries() {
-    return JSON.parse(localStorage.getItem("refecire_saved_countries") || "[]");
+  function getSavedGadgets() {
+    return JSON.parse(localStorage.getItem("refecire_saved_gadgets") || "[]");
   }
 
-  function deleteSavedCountry(name) {
-    var updated = getSavedCountries().filter(function (c) {
-      return c.name !== name;
+  function deleteGadget(id) {
+    var updated = getSavedGadgets().filter(function (g) {
+      return g.id !== id;
     });
-    localStorage.setItem("refecire_saved_countries", JSON.stringify(updated));
+    localStorage.setItem("refecire_saved_gadgets", JSON.stringify(updated));
+  }
+
+  function buildStars(rating) {
+    if (!rating) return "";
+    var full = Math.round(rating);
+    var stars = "";
+    for (var i = 0; i < 5; i++) stars += i < full ? "★" : "☆";
+    return stars + " " + Number(rating).toFixed(1);
   }
 
   function renderSaved() {
-    var saved = getSavedCountries();
-    var emptyState = document.getElementById("savedEmpty");
-    var countEl = document.getElementById("savedCount");
+    var saved = getSavedGadgets();
+    var emptyEl = document.getElementById("savedGadgetEmpty");
+    var countEl = document.getElementById("savedGadgetCount");
 
     if (saved.length === 0) {
       savedGrid.innerHTML = "";
-      emptyState.style.display = "block";
+      emptyEl.style.display = "block";
       countEl.textContent = "";
       return;
     }
 
-    emptyState.style.display = "none";
+    emptyEl.style.display = "none";
     countEl.textContent =
-      saved.length + " saved countr" + (saved.length !== 1 ? "ies" : "y");
-
+      saved.length + " saved gadget" + (saved.length !== 1 ? "s" : "");
     savedGrid.innerHTML = "";
 
-    saved.forEach(function (c) {
+    saved.forEach(function (g) {
       var card = document.createElement("div");
-      card.className = "country-card";
-      card.id = "saved-" + c.name.replace(/\s+/g, "-");
+      card.className = "gadget-card";
 
       card.innerHTML =
-        (c.flagUrl
-          ? '<img class="country-flag" src="' +
-            c.flagUrl +
-            '" alt="' +
-            c.flagAlt +
-            '" />'
-          : "") +
-        '<div class="country-card-body">' +
-        '<div class="country-name">' +
-        c.name +
-        (c.official && c.official !== c.name
-          ? "<span>" + c.official + "</span>"
-          : "") +
+        '<div class="gadget-img-wrap">' +
+        '<img class="gadget-img" src="' +
+        g.thumbnail +
+        '" alt="' +
+        g.title +
+        '" loading="lazy" />' +
         "</div>" +
-        '<div class="country-details">' +
-        '<div class="detail-row"><span class="detail-label">Capital</span><span class="detail-value">' +
-        c.capital +
-        "</span></div>" +
-        '<div class="detail-row"><span class="detail-label">Population</span><span class="detail-value">' +
-        c.population +
-        "</span></div>" +
-        '<div class="detail-row"><span class="detail-label">Region</span><span class="detail-value">' +
-        c.region +
-        "</span></div>" +
-        '<div class="detail-row"><span class="detail-label">Subregion</span><span class="detail-value">' +
-        c.subregion +
-        "</span></div>" +
-        '<div class="detail-row"><span class="detail-label">Currency</span><span class="detail-value">' +
-        c.currency +
-        "</span></div>" +
-        '<div class="detail-row"><span class="detail-label">Languages</span><span class="detail-value">' +
-        c.languages +
-        "</span></div>" +
+        '<div class="gadget-card-body">' +
+        '<div class="gadget-category">' +
+        g.category +
         "</div>" +
-        '<button class="btn-delete-saved" data-name="' +
-        c.name.replace(/"/g, "&quot;") +
+        '<div class="gadget-title">' +
+        g.title +
+        "</div>" +
+        '<div class="gadget-rating">' +
+        buildStars(g.rating) +
+        "</div>" +
+        '<div class="gadget-price">$' +
+        Number(g.price).toFixed(2) +
+        "</div>" +
+        '<button class="btn-delete-gadget" data-id="' +
+        g.id +
         '">✕ Remove</button>' +
         "</div>";
 
-      // Delete button
       card
-        .querySelector(".btn-delete-saved")
+        .querySelector(".btn-delete-gadget")
         .addEventListener("click", function () {
-          deleteSavedCountry(this.dataset.name);
+          deleteGadget(Number(this.dataset.id));
           renderSaved();
         });
 
@@ -1016,10 +949,10 @@ function requireAdminAccess() {
   }
 
   // Clear all button
-  var clearAllBtn = document.getElementById("clearAllBtn");
-  if (clearAllBtn) {
-    clearAllBtn.addEventListener("click", function () {
-      localStorage.removeItem("refecire_saved_countries");
+  var clearBtn = document.getElementById("clearAllGadgetsBtn");
+  if (clearBtn) {
+    clearBtn.addEventListener("click", function () {
+      localStorage.removeItem("refecire_saved_gadgets");
       renderSaved();
     });
   }

@@ -1,0 +1,84 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Gadget Shop | Refecire</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+
+<body>
+
+  <!-- NAVBAR -->
+  <nav class="navbar">
+    <div class="logo">REFECIRE</div>
+    <ul class="nav-links">
+      <li><a href="index.html">Home</a></li>
+      <li><a href="gadgets.html" class="nav-active">Shop</a></li>
+      <li><a href="saved-gadgets.html">Saved</a></li>
+      <li><a href="profile.html">Profile</a></li>
+      <li><a href="login.html" class="sign-in" id="logoutBtn">Logout</a></li>
+    </ul>
+  </nav>
+
+  <!-- HERO HEADER -->
+  <section class="gadget-hero">
+    <h1>Gadget Shop</h1>
+    <p>Search for any gadget by name and instantly browse products with prices and ratings.</p>
+
+    <!-- SEARCH BAR -->
+    <div class="gadget-search-wrap">
+      <input type="text" id="gadgetInput" class="gadget-input"
+        placeholder="Search e.g. Laptop, Phone, Headphones, Watch…" autocomplete="off" />
+      <button class="btn-primary gadget-search-btn" id="gadgetSearchBtn">Search</button>
+    </div>
+
+    <!-- QUICK SEARCH SHORTCUTS -->
+    <div class="gadget-categories">
+      <button class="cat-btn" data-q="laptop">💻 Laptop</button>
+      <button class="cat-btn" data-q="phone">📱 Phone</button>
+      <button class="cat-btn" data-q="headphones">🎧 Headphones</button>
+      <button class="cat-btn" data-q="watch">⌚ Watch</button>
+      <button class="cat-btn" data-q="tablet">📟 Tablet</button>
+      <button class="cat-btn" data-q="camera">📷 Camera</button>
+    </div>
+
+    <p class="gadget-hint">
+      Powered by <a href="https://dummyjson.com" target="_blank">DummyJSON API</a> — free, public, no API key required
+    </p>
+  </section>
+
+  <!-- RESULTS AREA -->
+  <section class="gadget-results">
+
+    <!-- ERROR STATE -->
+    <div class="gadget-error" id="gadgetErrorBox" style="display:none;">
+      <div class="error-icon">⚠</div>
+      <p id="gadgetErrorMsg">Something went wrong.</p>
+    </div>
+
+    <!-- LOADING STATE -->
+    <div class="gadget-loading" id="gadgetLoadingBox" style="display:none;">
+      <div class="spinner"></div>
+      <p>Searching products…</p>
+    </div>
+
+    <!-- RESULTS COUNT -->
+    <p class="results-count" id="gadgetResultCount"></p>
+
+    <!-- RESULTS GRID -->
+    <div class="gadget-grid" id="gadgetGrid"></div>
+
+  </section>
+
+  <!-- FOOTER -->
+  <footer>
+    <p>&copy; 2026 Refecire | Gadget Shop</p>
+  </footer>
+
+  <script src="script.js"></script>
+
+</body>
+
+</html>
