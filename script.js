@@ -619,9 +619,11 @@ function requireAdminAccess() {
 })();
 
 // ==============================
+// ==============================
 // GADGET SHOP (gadgets.html)
 // API: https://dummyjson.com/products/search?q=KEYWORD
 // Public, free, no API key, safe for GitHub Pages
+// Results filtered to electronics categories only
 // ==============================
 
 (function () {
@@ -634,6 +636,14 @@ function requireAdminAccess() {
   var errorMsg = document.getElementById("gadgetErrorMsg");
   var loadingBox = document.getElementById("gadgetLoadingBox");
   var resultCount = document.getElementById("gadgetResultCount");
+
+  // Electronics-only categories available in DummyJSON
+  var ELECTRONICS_CATEGORIES = [
+    "laptops",
+    "smartphones",
+    "tablets",
+    "mobile-accessories",
+  ];
 
   // --- UI STATE HELPERS ---
 
@@ -665,7 +675,7 @@ function requireAdminAccess() {
 
   function saveGadget(data) {
     var saved = getSavedGadgets();
-    // Check by id to prevent duplicates
+    // Prevent duplicates by product id
     if (
       saved.find(function (g) {
         return g.id === data.id;
@@ -694,7 +704,7 @@ function requireAdminAccess() {
     }, 2500);
   }
 
-  // --- BUILD STAR RATING STRING ---
+  // --- BUILD STAR RATING ---
 
   function buildStars(rating) {
     if (!rating) return "";
@@ -745,7 +755,6 @@ function requireAdminAccess() {
       "</button>" +
       "</div>";
 
-    // Wire up save button
     var saveBtn = card.querySelector(".btn-save-gadget");
     saveBtn.addEventListener("click", function () {
       var result = saveGadget({
@@ -760,9 +769,9 @@ function requireAdminAccess() {
         saveBtn.textContent = "✓ Saved";
         saveBtn.disabled = true;
         saveBtn.classList.add("btn-save-gadget--saved");
-        showToast("✓ " + product.title.substring(0, 35) + "… saved!", true);
+        showToast("✓ " + product.title.substring(0, 35) + "... saved!", true);
       } else {
-        showToast("⚠ Already saved.", false);
+        showToast("Already saved.", false);
       }
     });
 
@@ -773,12 +782,12 @@ function requireAdminAccess() {
 
   function renderProducts(products) {
     hideAll();
-
     if (!products || products.length === 0) {
-      showError("No products found for that search. Try a different keyword.");
+      showError(
+        "No electronics found. Try: Laptop, Phone, Tablet, or Headphones.",
+      );
       return;
     }
-
     resultCount.textContent =
       products.length +
       " product" +
@@ -790,7 +799,8 @@ function requireAdminAccess() {
     });
   }
 
-  // --- MAIN SEARCH — calls DummyJSON search endpoint ---
+  // --- MAIN SEARCH ---
+  // Calls DummyJSON search then filters to electronics categories only
 
   function searchGadgets(query) {
     if (!query || query.trim() === "") {
@@ -804,11 +814,11 @@ function requireAdminAccess() {
 
     showLoading();
 
-    // DummyJSON search endpoint — returns products matching keyword
+    // Fetch with limit=100 so we get enough results before filtering
     var apiUrl =
       "https://dummyjson.com/products/search?q=" +
       encodeURIComponent(query.trim()) +
-      "&limit=30";
+      "&limit=100";
 
     fetch(apiUrl)
       .then(function (response) {
@@ -822,8 +832,21 @@ function requireAdminAccess() {
         return response.json();
       })
       .then(function (data) {
-        // DummyJSON returns { products: [...], total: N }
-        renderProducts(data.products || []);
+        // Filter results to electronics categories only
+        var electronics = (data.products || []).filter(function (p) {
+          return ELECTRONICS_CATEGORIES.indexOf(p.category) !== -1;
+        });
+
+        if (electronics.length === 0) {
+          showError(
+            'No electronics found for "' +
+              query.trim() +
+              '". Try: Laptop, Phone, Tablet, or Headphones.',
+          );
+          return;
+        }
+
+        renderProducts(electronics);
       })
       .catch(function (error) {
         if (error.message === "Failed to fetch") {
@@ -838,22 +861,18 @@ function requireAdminAccess() {
 
   // --- EVENT LISTENERS ---
 
-  // Search button click
   searchBtn.addEventListener("click", function () {
     searchGadgets(gadgetInput.value);
   });
 
-  // Enter key in input
   gadgetInput.addEventListener("keydown", function (e) {
     if (e.key === "Enter") searchGadgets(gadgetInput.value);
   });
 
-  // Quick shortcut buttons
   document.querySelectorAll(".cat-btn").forEach(function (btn) {
     btn.addEventListener("click", function () {
       var query = this.dataset.q;
       gadgetInput.value = query;
-      // Highlight active button
       document.querySelectorAll(".cat-btn").forEach(function (b) {
         b.classList.remove("active");
       });
@@ -863,7 +882,6 @@ function requireAdminAccess() {
   });
 })();
 
-// ==============================
 // SAVED GADGETS (saved-gadgets.html)
 // ==============================
 
