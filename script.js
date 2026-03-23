@@ -620,10 +620,13 @@ function requireAdminAccess() {
 
 // ==============================
 // ==============================
+// ==============================
+// ==============================
+// ==============================
 // GADGET SHOP (gadgets.html)
 // API: https://dummyjson.com/products/search?q=KEYWORD
 // Public, free, no API key, safe for GitHub Pages
-// Results filtered to electronics categories only
+// Filtered to electronics only, shows full product specs
 // ==============================
 
 (function () {
@@ -637,7 +640,7 @@ function requireAdminAccess() {
   var loadingBox = document.getElementById("gadgetLoadingBox");
   var resultCount = document.getElementById("gadgetResultCount");
 
-  // Electronics-only categories available in DummyJSON
+  // Electronics-only categories in DummyJSON
   var ELECTRONICS_CATEGORIES = [
     "laptops",
     "smartphones",
@@ -645,7 +648,7 @@ function requireAdminAccess() {
     "mobile-accessories",
   ];
 
-  // --- UI STATE HELPERS ---
+  // --- UI HELPERS ---
 
   function showLoading() {
     loadingBox.style.display = "block";
@@ -667,7 +670,7 @@ function requireAdminAccess() {
     errorBox.style.display = "none";
   }
 
-  // --- LOCALSTORAGE HELPERS ---
+  // --- LOCALSTORAGE ---
 
   function getSavedGadgets() {
     return JSON.parse(localStorage.getItem("refecire_saved_gadgets") || "[]");
@@ -675,7 +678,6 @@ function requireAdminAccess() {
 
   function saveGadget(data) {
     var saved = getSavedGadgets();
-    // Prevent duplicates by product id
     if (
       saved.find(function (g) {
         return g.id === data.id;
@@ -687,7 +689,7 @@ function requireAdminAccess() {
     return true;
   }
 
-  // --- TOAST NOTIFICATION ---
+  // --- TOAST ---
 
   function showToast(message, success) {
     var existing = document.getElementById("save-toast");
@@ -704,7 +706,7 @@ function requireAdminAccess() {
     }, 2500);
   }
 
-  // --- BUILD STAR RATING ---
+  // --- STAR RATING ---
 
   function buildStars(rating) {
     if (!rating) return "";
@@ -714,7 +716,7 @@ function requireAdminAccess() {
     return stars + " " + Number(rating).toFixed(1);
   }
 
-  // --- BUILD ONE PRODUCT CARD ---
+  // --- BUILD CARD WITH FULL SPECS ---
 
   function buildCard(product) {
     var saved = getSavedGadgets();
@@ -722,10 +724,21 @@ function requireAdminAccess() {
       return g.id === product.id;
     });
 
+    // Extract all available product details
+    var brand = product.brand || "";
+    var description = product.description || "";
+    var discount = product.discountPercentage
+      ? Number(product.discountPercentage).toFixed(0) + "% off"
+      : "";
+    var stock = product.stock !== undefined ? product.stock + " in stock" : "";
+    var warranty = product.warrantyInformation || "";
+    var shipping = product.shippingInformation || "";
+
     var card = document.createElement("div");
     card.className = "gadget-card";
 
     card.innerHTML =
+      // Product image
       '<div class="gadget-img-wrap">' +
       '<img class="gadget-img" src="' +
       product.thumbnail +
@@ -734,18 +747,52 @@ function requireAdminAccess() {
       '" loading="lazy" />' +
       "</div>" +
       '<div class="gadget-card-body">' +
+      // Category + title
       '<div class="gadget-category">' +
       product.category +
       "</div>" +
       '<div class="gadget-title">' +
       product.title +
       "</div>" +
+      // Star rating
       '<div class="gadget-rating">' +
       buildStars(product.rating) +
       "</div>" +
+      // Price + discount badge
       '<div class="gadget-price">$' +
       Number(product.price).toFixed(2) +
+      (discount
+        ? '<span class="gadget-discount">' + discount + "</span>"
+        : "") +
       "</div>" +
+      // Short description
+      (description
+        ? '<div class="gadget-description">' + description + "</div>"
+        : "") +
+      // Specs table
+      '<div class="gadget-specs">' +
+      (brand
+        ? '<div class="spec-row"><span class="spec-label">Brand</span><span class="spec-value">' +
+          brand +
+          "</span></div>"
+        : "") +
+      (stock
+        ? '<div class="spec-row"><span class="spec-label">Stock</span><span class="spec-value">' +
+          stock +
+          "</span></div>"
+        : "") +
+      (warranty
+        ? '<div class="spec-row"><span class="spec-label">Warranty</span><span class="spec-value">' +
+          warranty +
+          "</span></div>"
+        : "") +
+      (shipping
+        ? '<div class="spec-row"><span class="spec-label">Shipping</span><span class="spec-value">' +
+          shipping +
+          "</span></div>"
+        : "") +
+      "</div>" +
+      // Save button
       '<button class="btn-save-gadget' +
       (isSaved ? " btn-save-gadget--saved" : "") +
       '"' +
@@ -755,6 +802,7 @@ function requireAdminAccess() {
       "</button>" +
       "</div>";
 
+    // Wire up save button
     var saveBtn = card.querySelector(".btn-save-gadget");
     saveBtn.addEventListener("click", function () {
       var result = saveGadget({
@@ -764,6 +812,12 @@ function requireAdminAccess() {
         category: product.category,
         thumbnail: product.thumbnail,
         rating: product.rating,
+        brand: brand,
+        description: description,
+        discountPercentage: product.discountPercentage || 0,
+        stock: product.stock || 0,
+        warrantyInformation: warranty,
+        shippingInformation: shipping,
       });
       if (result) {
         saveBtn.textContent = "✓ Saved";
@@ -778,13 +832,13 @@ function requireAdminAccess() {
     return card;
   }
 
-  // --- RENDER RESULTS ---
+  // --- RENDER ---
 
   function renderProducts(products) {
     hideAll();
     if (!products || products.length === 0) {
       showError(
-        "No electronics found. Try: Laptop, Phone, Tablet, or Headphones.",
+        "No electronics found. Try a brand like Samsung, Apple, Sony, or OPPO.",
       );
       return;
     }
@@ -799,12 +853,11 @@ function requireAdminAccess() {
     });
   }
 
-  // --- MAIN SEARCH ---
-  // Calls DummyJSON search then filters to electronics categories only
+  // --- SEARCH ---
 
   function searchGadgets(query) {
     if (!query || query.trim() === "") {
-      showError("Please enter a product name to search.");
+      showError("Please enter a brand or product name to search.");
       return;
     }
     if (query.trim().length < 2) {
@@ -814,25 +867,21 @@ function requireAdminAccess() {
 
     showLoading();
 
-    // Fetch with limit=100 so we get enough results before filtering
-    var apiUrl =
+    // Step 1: Search for matching products
+    fetch(
       "https://dummyjson.com/products/search?q=" +
-      encodeURIComponent(query.trim()) +
-      "&limit=100";
-
-    fetch(apiUrl)
-      .then(function (response) {
-        if (!response.ok) {
+        encodeURIComponent(query.trim()) +
+        "&limit=100",
+    )
+      .then(function (res) {
+        if (!res.ok)
           throw new Error(
-            "Request failed with status " +
-              response.status +
-              ". Please try again.",
+            "Request failed with status " + res.status + ". Please try again.",
           );
-        }
-        return response.json();
+        return res.json();
       })
       .then(function (data) {
-        // Filter results to electronics categories only
+        // Step 2: Filter to electronics categories only
         var electronics = (data.products || []).filter(function (p) {
           return ELECTRONICS_CATEGORIES.indexOf(p.category) !== -1;
         });
@@ -841,25 +890,37 @@ function requireAdminAccess() {
           showError(
             'No electronics found for "' +
               query.trim() +
-              '". Try: Laptop, Phone, Tablet, or Headphones.',
+              '". Try: Samsung, Apple, Sony, OPPO, Huawei, iPhone, Laptop, or Tablet.',
           );
           return;
         }
 
-        renderProducts(electronics);
+        // Step 3: Fetch full details for each product to get specs (brand, warranty, shipping etc)
+        // DummyJSON full product endpoint: /products/{id}
+        var detailRequests = electronics.map(function (p) {
+          return fetch("https://dummyjson.com/products/" + p.id)
+            .then(function (r) {
+              return r.json();
+            })
+            .catch(function () {
+              return p;
+            }); // fallback to basic data if detail fetch fails
+        });
+
+        Promise.all(detailRequests).then(function (fullProducts) {
+          renderProducts(fullProducts);
+        });
       })
       .catch(function (error) {
-        if (error.message === "Failed to fetch") {
-          showError(
-            "Network error. Please check your internet connection and try again.",
-          );
-        } else {
-          showError(error.message);
-        }
+        showError(
+          error.message === "Failed to fetch"
+            ? "Network error. Please check your internet connection and try again."
+            : error.message,
+        );
       });
   }
 
-  // --- EVENT LISTENERS ---
+  // --- EVENTS ---
 
   searchBtn.addEventListener("click", function () {
     searchGadgets(gadgetInput.value);
@@ -871,17 +932,17 @@ function requireAdminAccess() {
 
   document.querySelectorAll(".cat-btn").forEach(function (btn) {
     btn.addEventListener("click", function () {
-      var query = this.dataset.q;
-      gadgetInput.value = query;
+      gadgetInput.value = this.dataset.q;
       document.querySelectorAll(".cat-btn").forEach(function (b) {
         b.classList.remove("active");
       });
       this.classList.add("active");
-      searchGadgets(query);
+      searchGadgets(this.dataset.q);
     });
   });
 })();
 
+// ==============================
 // SAVED GADGETS (saved-gadgets.html)
 // ==============================
 
@@ -929,6 +990,12 @@ function requireAdminAccess() {
       var card = document.createElement("div");
       card.className = "gadget-card";
 
+      var discount = g.discountPercentage
+        ? Number(g.discountPercentage).toFixed(0) + "% off"
+        : "";
+      var stock =
+        g.stock !== undefined && g.stock !== 0 ? g.stock + " in stock" : "";
+
       card.innerHTML =
         '<div class="gadget-img-wrap">' +
         '<img class="gadget-img" src="' +
@@ -949,6 +1016,34 @@ function requireAdminAccess() {
         "</div>" +
         '<div class="gadget-price">$' +
         Number(g.price).toFixed(2) +
+        (discount
+          ? '<span class="gadget-discount">' + discount + "</span>"
+          : "") +
+        "</div>" +
+        (g.description
+          ? '<div class="gadget-description">' + g.description + "</div>"
+          : "") +
+        '<div class="gadget-specs">' +
+        (g.brand
+          ? '<div class="spec-row"><span class="spec-label">Brand</span><span class="spec-value">' +
+            g.brand +
+            "</span></div>"
+          : "") +
+        (stock
+          ? '<div class="spec-row"><span class="spec-label">Stock</span><span class="spec-value">' +
+            stock +
+            "</span></div>"
+          : "") +
+        (g.warrantyInformation
+          ? '<div class="spec-row"><span class="spec-label">Warranty</span><span class="spec-value">' +
+            g.warrantyInformation +
+            "</span></div>"
+          : "") +
+        (g.shippingInformation
+          ? '<div class="spec-row"><span class="spec-label">Shipping</span><span class="spec-value">' +
+            g.shippingInformation +
+            "</span></div>"
+          : "") +
         "</div>" +
         '<button class="btn-delete-gadget" data-id="' +
         g.id +
@@ -966,7 +1061,6 @@ function requireAdminAccess() {
     });
   }
 
-  // Clear all button
   var clearBtn = document.getElementById("clearAllGadgetsBtn");
   if (clearBtn) {
     clearBtn.addEventListener("click", function () {
