@@ -206,3 +206,55 @@ I used AI tools to help build the Gadget Shop page. It helped with the fetch log
 # Learning Reflection
 
 From this activity, I learned how to integrate a public API into a web project using fetch() in JavaScript. I understood how to process JSON responses and display data dynamically on the page. I also learned how to persist saved data using localStorage so it survives page refreshes. The most challenging part was finding the right API that was free, public, and supported keyword search without needing any private keys.
+
+---
+
+## ACTIVITY 7 March 23, 2026
+
+# Activity Name - API Refinement Activity
+
+# Project Purpose
+
+Refecire is an online gadget shopping website where users can browse, search, and save electronics products such as phones, laptops, and tablets after logging in.
+
+# API Used
+
+- DummyJSON Products API (https://dummyjson.com/products/search?q=KEYWORD)
+- Free, public, no API key required, safe for GitHub Pages deployment
+
+# Justification
+
+The DummyJSON Products API belongs in this website because it provides real electronics product data including brand names, prices, images, ratings, warranty information, and shipping details — which are all directly useful for an online gadget shop. Without this API, the shop would have no real product data to display, making it a relevant and necessary integration for the website's purpose.
+
+# Integration
+
+The API data is displayed in the UI as product cards. Each card shows the following useful information retrieved from the API:
+
+- Product image and title
+- Brand name
+- Category (smartphones, laptops, tablets, mobile-accessories)
+- Star rating and price
+- Discount percentage
+- Short product description
+- Stock availability
+- Warranty information
+- Shipping information
+
+Users can search by brand name (e.g. Samsung, Apple, Sony, OPPO, Huawei) or by product type (e.g. iPhone, Laptop, Tablet). Results are filtered to electronics categories only so no unrelated products appear. A second API call is made per product to fetch full details since the search endpoint only returns basic fields.
+
+# Features Added
+
+- Product cards now show full specs including brand, description, discount, stock, warranty, and shipping
+- Search refined to electronics-only categories (laptops, smartphones, tablets, mobile-accessories)
+- Quick brand shortcut buttons added (Samsung, Apple, Sony, OPPO, Huawei, iPhone, Laptop, Tablet)
+- Two-step fetch process: search for results then fetch full product details for each item
+
+# AI Assistance Disclosure (Required)
+
+Did you use AI tools? Yes
+
+I used AI tools to help refine the API integration and update the product cards to display full product details. All code was reviewed, edited, and tested by me.
+
+# Learning Reflection
+
+From this activity, I learned the importance of choosing an API that is actually relevant to what my website does. I also learned that different API endpoints return different amounts of data and that a search endpoint may not return all fields, which required making a second fetch call to get the full product details. The most challenging part was understanding why the specs were not showing and realizing the search endpoint was returning limited data compared to the individual product endpoint.
